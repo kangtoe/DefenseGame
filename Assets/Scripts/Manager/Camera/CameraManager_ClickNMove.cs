@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // 드레그 입력 감지, 그에 따른 카메라 이동 제어 
-public class CameraManager : MonoBehaviour
+public class CameraManager_ClickNMove : MonoBehaviour
 {
+    [Space]
+    // 카메라 조작 가능 여부
+    public bool camearaControl = true;
+    [Space]
+
     public Camera myCamera;
 
     // 영역 제한
@@ -16,8 +21,7 @@ public class CameraManager : MonoBehaviour
     Vector2 mouseNow; // 마우스 현재 위치
     bool onMouse; // 마우스 입력 중인가?
 
-    // 카메라 조작 가능 여부
-    public bool camearaControl = true;
+    
 
     // 카메라 이동 민감도
     public float moveSensitivity = 1f;
@@ -26,7 +30,7 @@ public class CameraManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(MoveCameraCheck());
+        StartCoroutine(LimitCameraMove());
     }
 
     // Update is called once per frame
@@ -45,7 +49,7 @@ public class CameraManager : MonoBehaviour
 
     // 마우스 x축 드래그 값에 비례하여 카메라 이동
     // 카메라 이동 영역 제한
-    IEnumerator MoveCameraCheck()
+    IEnumerator LimitCameraMove()
     {
         // 카메라 너비의 절반을 월드좌표로 구하기
         Vector2 cameraCenter = myCamera.ViewportToWorldPoint(new Vector2(0.5f, 0.5f));

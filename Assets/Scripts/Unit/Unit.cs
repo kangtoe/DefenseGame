@@ -58,6 +58,8 @@ public class Unit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("Unit start : " + transform.parent.name);
+
         if (unitType == UnitType.skillUnit) return;
 
         // 바라보는 방향(오른쪽 => 1, 왼쪽 => -1)

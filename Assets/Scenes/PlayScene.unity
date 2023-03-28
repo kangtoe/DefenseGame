@@ -1689,7 +1689,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1948541089
   m_SortingLayer: 4
-  m_SortingOrder: 0
+  m_SortingOrder: 10
   m_Sprite: {fileID: 4723107735738678597, guid: 0e3502a80399d164ea01f1868f65acbf,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1710,7 +1710,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460161508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.51, y: -1.69, z: 0}
+  m_LocalPosition: {x: -20.51, y: -1.85, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1747,6 +1747,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae2d4984d51ae0d41987813544a3ac9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 8
+  dir: 1
 --- !u!1 &466832185
 GameObject:
   m_ObjectHideFlags: 0
@@ -3218,7 +3220,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &822783364
 Canvas:
   m_ObjectHideFlags: 0
@@ -10508,6 +10510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1588897106}
   - component: {fileID: 1588897107}
+  - component: {fileID: 1588897108}
   m_Layer: 0
   m_Name: CameraManager
   m_TagString: Untagged
@@ -10538,16 +10541,33 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1588897105}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bfcc5851a1bc29b499927896e3b88dd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  camearaControl: 1
   myCamera: {fileID: 963194227}
   cameraAreaStart: {fileID: 197116891}
   cameraAreaEnd: {fileID: 2123177283}
-  camearaControl: 1
   moveSensitivity: 2
+--- !u!114 &1588897108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588897105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40653e59b9f7a2844b4c15dc968c585b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camearaControl: 1
+  myCamera: {fileID: 963194227}
+  cameraAreaStart: {fileID: 197116891}
+  cameraAreaEnd: {fileID: 2123177283}
+  FocusCharacter: {fileID: 460161510}
 --- !u!1 &1601704995
 GameObject:
   m_ObjectHideFlags: 0
