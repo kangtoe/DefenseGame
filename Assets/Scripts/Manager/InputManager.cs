@@ -21,8 +21,8 @@ public class InputManager : MonoBehaviour
     }
     private static InputManager m_instance; // 싱글톤이 할당될 static 변수
 
-    float MoveX => moveX;
-    float moveX;
+    public int MoveX => moveX;
+    int moveX;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +33,6 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        moveX = (int)Input.GetAxisRaw("Horizontal");
     }
 }

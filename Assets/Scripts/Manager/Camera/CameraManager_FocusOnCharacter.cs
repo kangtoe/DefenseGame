@@ -4,63 +4,89 @@ using UnityEngine;
 
 public class CameraManager_FocusOnCharacter : MonoBehaviour
 {
+    public static CameraManager_FocusOnCharacter Instance
+    {
+        get
+        {
+            // ë§Œì•½ ì‹±ê¸€í†¤ ë³€ìˆ˜ì— ì•„ì§ ì˜¤ë¸Œì íŠ¸ê°€ í• ë‹¹ë˜ì§€ ì•Šì•˜ë‹¤ë©´
+            if (instance == null)
+            {
+                // ì”¬ì—ì„œ GameManager ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¾ì•„ í• ë‹¹
+                instance = FindObjectOfType<CameraManager_FocusOnCharacter>();
+            }
+
+            // ì‹±ê¸€í†¤ ì˜¤ë¸Œì íŠ¸ë¥¼ ë°˜í™˜
+            return instance;
+        }
+    }
+    private static CameraManager_FocusOnCharacter instance; // ì‹±ê¸€í†¤ì´ í• ë‹¹ë  static ë³€ìˆ˜ 
+
     [Space]
-    // Ä«¸Ş¶ó Á¶ÀÛ °¡´É ¿©ºÎ
+    // ì¹´ë©”ë¼ ì¡°ì‘ ê°€ëŠ¥ ì—¬ë¶€
     public bool camearaControl = true;
     [Space]
 
     [SerializeField]
     Camera myCamera;
 
-    // ¿µ¿ª Á¦ÇÑ
+    // ì˜ì—­ ì œí•œ
     [SerializeField]
     Transform cameraAreaStart;
     [SerializeField]
     Transform cameraAreaEnd;
 
     [SerializeField]
-    Transform FocusCharacter;
+    public Transform FocusCharacter;
 
-    // Start is called before the first frame update
+    float moveSpeed;
+    
     void Start()
     {
-
+        moveSpeed = FocusCharacter.GetComponent<Unit>().moveSpeed;
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
         Vector3 vec = myCamera.transform.position;
 
-        vec.x = FocusCharacter.position.x;
-        myCamera.transform.position = vec;
+        if (FocusCharacter)
+        {
+            vec.x = FocusCharacter.position.x;
+            myCamera.transform.position = vec;
+        }
+        else
+        {
+            // ì…ë ¥ì— ë”°ë¥¸ ì´ë™
+            float xMove = moveSpeed * Time.deltaTime * InputManager.instance.MoveX;
+            myCamera.transform.Translate(xMove, 0, 0);
+        }        
 
         LimitCameraMove();
     }
 
-    // ¸¶¿ì½º xÃà µå·¡±× °ª¿¡ ºñ·ÊÇÏ¿© Ä«¸Ş¶ó ÀÌµ¿
-    // Ä«¸Ş¶ó ÀÌµ¿ ¿µ¿ª Á¦ÇÑ
+    // ë§ˆìš°ìŠ¤ xì¶• ë“œë˜ê·¸ ê°’ì— ë¹„ë¡€í•˜ì—¬ ì¹´ë©”ë¼ ì´ë™
+    // ì¹´ë©”ë¼ ì´ë™ ì˜ì—­ ì œí•œ
     void LimitCameraMove()
     {
-        // Ä«¸Ş¶ó ³ÊºñÀÇ Àı¹İÀ» ¿ùµåÁÂÇ¥·Î ±¸ÇÏ±â
+        // ì¹´ë©”ë¼ ë„ˆë¹„ì˜ ì ˆë°˜ì„ ì›”ë“œì¢Œí‘œë¡œ êµ¬í•˜ê¸°
         Vector2 cameraCenter = myCamera.ViewportToWorldPoint(new Vector2(0.5f, 0.5f));
         Vector2 cameraRightEnd = myCamera.ViewportToWorldPoint(new Vector2(1f, 0.5f));
         float cameraWidthHalf = (cameraRightEnd - cameraCenter).x;
 
-        // Ä«¸Ş¶ó ÃÖ¼Ò, ÃÖ´ë À§Ä¡
+        // ì¹´ë©”ë¼ ìµœì†Œ, ìµœëŒ€ ìœ„ì¹˜
         float minX = cameraAreaStart.position.x + cameraWidthHalf;
         Vector3 cameraMin = new Vector3(minX, myCamera.transform.position.y, myCamera.transform.position.z);
         float maxX = cameraAreaEnd.position.x - cameraWidthHalf;
         Vector3 cameraMax = new Vector3(maxX, myCamera.transform.position.y, myCamera.transform.position.z);
 
 
-        // Ä«¸Ş¶ó ÀÌµ¿Á¦ÇÑ
-        if (myCamera.transform.position.x < cameraMin.x) // ÃÖ¼Ò¿µ¿ª ¹ş¾î³²
+        // ì¹´ë©”ë¼ ì´ë™ì œí•œ
+        if (myCamera.transform.position.x < cameraMin.x) // ìµœì†Œì˜ì—­ ë²—ì–´ë‚¨
         {
             //Debug.Log("camera min area");
             myCamera.transform.position = cameraMin;
         }
-        if (myCamera.transform.position.x > cameraMax.x) // ÃÖ´ë¿µ¿ª ¹ş¾î³²
+        if (myCamera.transform.position.x > cameraMax.x) // ìµœëŒ€ì˜ì—­ ë²—ì–´ë‚¨
         {
             //Debug.Log("camera max area");
             myCamera.transform.position = cameraMax;

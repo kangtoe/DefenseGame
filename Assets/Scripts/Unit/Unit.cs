@@ -157,7 +157,7 @@ public class Unit : MonoBehaviour
         if (unitType == UnitType.hero)
         {
             // 입력 방향
-            int xInput = (int)Input.GetAxisRaw("Horizontal");
+            int xInput = InputManager.instance.MoveX;
             // 현재 바라보는 방향
             int _dir = (transform.right.x > 0 ? 1 : -1);
             
@@ -370,12 +370,16 @@ public class Unit : MonoBehaviour
             if (deathEffectPrefab) Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
             Destroy(transform.gameObject);
         }
-        // 일반 유닛 파괴 시
         else
         {
             coll.enabled = false; // 콜라이더 끄기
             hpBar.gameObject.SetActive(false); // hp 표기 중단
             PlayDeathAnimation(); // 사망 애니메이션 재생
+
+            if (unitType == UnitType.hero)
+            {
+                HeroRevive.Instance.StartReviveCr();
+            }
         }
     }
 
