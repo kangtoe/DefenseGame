@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 424802551598300317}
   - component: {fileID: 1608834364610577654}
+  - component: {fileID: 1392437878546398396}
   - component: {fileID: 8786557522341978000}
   m_Layer: 0
   m_Name: Gunner
@@ -51,17 +52,29 @@ MonoBehaviour:
     type: 3}
   unitType: 0
   attackType: 1
-  price: 500
-  spwanCooltime: 10
   maxHp: 300
   moveSpeed: 1.75
   attackRange: 10
   damage: 80
   impact: 0
-  isEnemy: 1
+  isEnemy: 0
   damageTextPonit: {fileID: 0}
   deathEffectPrefab: {fileID: 9079989737093836079, guid: e8f7d88871a336c489386d0c751a50a9,
     type: 3}
+--- !u!114 &1392437878546398396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 424802551598300316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33957a17bb0db9549b0264d539886b69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  price: 500
+  spwanCooltime: 10
 --- !u!50 &8786557522341978000
 Rigidbody2D:
   serializedVersion: 4

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 711452536793501674}
   - component: {fileID: 2336072710511138254}
   - component: {fileID: 249874233944931231}
-  - component: {fileID: 5572949178824171103}
+  - component: {fileID: 2664236984622724509}
   m_Layer: 0
   m_Name: Angel
   m_TagString: Untagged
@@ -49,6 +49,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -118,7 +119,7 @@ MonoBehaviour:
   spriteRenderer: {fileID: 711452536793501674}
   anim: {fileID: 2336072710511138254}
   enemyUnits: {fileID: 0}
---- !u!114 &5572949178824171103
+--- !u!114 &2664236984622724509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,23 +128,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 202115956041258109}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104651c5fe916fa4397e1a3ef5a9d9d6, type: 3}
+  m_Script: {fileID: 11500000, guid: 33957a17bb0db9549b0264d539886b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  damageTextPonit: {fileID: 0}
-  animator: {fileID: 0}
-  bulletPrefab: {fileID: 0}
-  deathEffectPrefab: {fileID: 0}
-  hpBar: {fileID: 0}
-  spriterRenderer: {fileID: 0}
-  unitType: 98
-  price: 0
-  spwanCooltime: 60
-  maxHp: 0
-  moveSpeed: 0
-  attackRange: 0
-  damage: 0
-  impact: 0
-  attackType: 99
-  isEnemy: 0
+  price: 500
+  spwanCooltime: 40

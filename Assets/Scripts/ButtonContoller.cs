@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +20,8 @@ public class ButtonContoller : MonoBehaviour
 
     // 스폰할 유닛 관련 변수
     public GameObject unitPrefab; // 버튼에 스폰을 등록된 유닛 프리팹
-    Unit unit;
+    //Unit unit;
+    Spwanable spwanable;
 
     // 스폰 관련 변수
     float lastSpwanTime = 0f; // 마지막으로 유닛을 스폰한 시간
@@ -34,7 +35,8 @@ public class ButtonContoller : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        unit = unitPrefab.GetComponentInChildren<Unit>();
+        //unit = unitPrefab.GetComponentInChildren<Unit>();
+        spwanable = unitPrefab.GetComponentInChildren<Spwanable>();
         spwanManager = GameObject.Find("PlayerSpwanManager").GetComponent<SpwanManager>();
         goldManager = GameObject.Find("PlayerGoldManager").GetComponent<GoldManager>();
 
@@ -58,7 +60,7 @@ public class ButtonContoller : MonoBehaviour
         // onClick에 리스너 등록
         button.onClick.AddListener(TrySpwanUnit);
         // 유닛 생산 비용 표기
-        priceText.text = unit.price.ToString();
+        priceText.text = spwanable.price.ToString();
         // 시작 시 스폰 쿨타임 적용
         StartCoroutine(SyncFilledImage());
     }
@@ -70,7 +72,7 @@ public class ButtonContoller : MonoBehaviour
         if (isSpwanCooltime) return;
 
         // 게임 메니저에서 돈이 부족해서 스폰에 실패한 경우
-        if (!goldManager.TrySpendGold(unit.price))
+        if (!goldManager.TrySpendGold(spwanable.price))
         {
             TextMaker.instance.CreateCameraText(Vector3.zero, "Not Enough Gold!", 60);
             return;
@@ -88,14 +90,14 @@ public class ButtonContoller : MonoBehaviour
     IEnumerator SyncFilledImage()
     {
         float ratio; // fill 비율 (쿨타임 시작시 1, 종료시 0)
-        float leftSpwanTime = unit.spwanCooltime;
+        float leftSpwanTime = spwanable.spwanCooltime;
 
         isSpwanCooltime = true; // 스폰 쿨타임 중인가
 
         while (true)
         {
             // 남은 쿨타임 / 전체 쿨타임 비율 구해서 적용
-            ratio = leftSpwanTime / unit.spwanCooltime;
+            ratio = leftSpwanTime / spwanable.spwanCooltime;
             fadeImage.fillAmount = ratio;
 
             leftSpwanTime -= Time.deltaTime;

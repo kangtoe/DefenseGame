@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,7 +55,7 @@ public class AutoSpwan : MonoBehaviour
     // 유닛 스폰 시도
     void TrySpwanUnit(GameObject unitPrefab)
     {
-        Unit unit = unitPrefab.GetComponentInChildren<Unit>();
+        Spwanable unit = unitPrefab.GetComponentInChildren<Spwanable>();
 
         // 게임 메니저에서 돈이 부족해서 스폰에 실패한 경우
         if (!goldManager.TrySpendGold(unit.price))
@@ -75,7 +75,7 @@ public class AutoSpwan : MonoBehaviour
 
         for (int i = 0; i < spwanUnits.Count; i++)
         {
-            Unit unit = spwanUnits[i].GetComponentInChildren<Unit>();
+            Spwanable unit = spwanUnits[i].GetComponentInChildren<Spwanable>();
             // 현재 골드보다 price가 적은 유닛만 리스트에 등록
             float currentGold = goldManager.GetCurrentGold();
             

@@ -36,8 +36,6 @@ public class Unit : MonoBehaviour
     [Header("유닛 수치 정보")]
     public UnitType unitType;
     public AttackType attackType;
-    public int price; // 생산에 필요한 가격
-    public float spwanCooltime; // 최소 생산 간격(초)
     public float maxHp;
     float currentHp;
     public float moveSpeed;
