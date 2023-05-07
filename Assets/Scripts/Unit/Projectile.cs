@@ -57,7 +57,7 @@ public class Projectile : MonoBehaviour
 
             Unit obj = coll.attachedRigidbody.GetComponent<Unit>();
 
-            obj.Hit(damage);
+            obj.OnHit(damage);
 
             if(effect) Instantiate(effect, transform.position, Quaternion.identity);
 

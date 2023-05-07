@@ -37,6 +37,7 @@ public class Unit : MonoBehaviour
     public AttackType attackType;
     public float maxHp;
     float currentHp;
+    public float hpRegen = 0; // 초당 hp 회복
     public float moveSpeed;
     public float attackRange; // 공격거리 == 적 탐색거리
     public float damage;
@@ -93,7 +94,8 @@ public class Unit : MonoBehaviour
 
         // 피격 효과를 검사하는 코루틴
         //StartCoroutine(ShakeCheck(0.2f, 0.05f));
-        StartCoroutine(BlinkCheck());        
+        StartCoroutine(BlinkCheck());
+        StartCoroutine(HealthRegenCr());
     }
 
     // Update is called once per frame
@@ -138,6 +140,14 @@ public class Unit : MonoBehaviour
     {
         isEnemy = true;
         //Debug.Log("SetEnemy");
+    }
+
+    void CreateText(string str, Color color)
+    {
+        Vector3 textPos;
+        if (damageTextPonit) textPos = damageTextPonit.position;
+        else textPos = hpBar.gameObject.transform.position + Vector3.up * 0.5f;
+        TextMaker.instance.CreateWolrdText(textPos, str, color);
     }
 
     #region 이동 관련
@@ -253,7 +263,7 @@ public class Unit : MonoBehaviour
             // 알아온 적 각각에 피해 주기
             for (int i = 0; i < hits.Length; i++)
             {
-                hits[i].attachedRigidbody.GetComponent<Unit>().Hit(damage);
+                hits[i].attachedRigidbody.GetComponent<Unit>().OnHit(damage);
             }
         }
         if (attackType == AttackType.range)
@@ -271,7 +281,7 @@ public class Unit : MonoBehaviour
 
             // 알아온 적에게 피해 주기
             if (!hit) return;
-            hit.attachedRigidbody.GetComponent<Unit>().Hit(damage);
+            hit.attachedRigidbody.GetComponent<Unit>().OnHit(damage);
         }
     }
 
@@ -304,7 +314,7 @@ public class Unit : MonoBehaviour
     #region 피격 관련 메소드
 
     // 피해를 받음
-    public void Hit(float amount)
+    public void OnHit(float amount)
     {
         //Debug.Log(name + " : Hit");
 
@@ -317,10 +327,8 @@ public class Unit : MonoBehaviour
         currentHp -= amount;
 
         // 피격 데미지 표기
-        Vector3 textPos;
-        if (damageTextPonit) textPos = damageTextPonit.position;
-        else textPos = hpBar.gameObject.transform.position + Vector3.up * 0.5f;
-        TextMaker.instance.CreateWolrdText(textPos, amount.ToString());
+        CreateText(amount.ToString(), Color.red);
+
         // n초동안 시각적 피격 효과 적용
         SetHitEffect(hitEffectDuration);
 
@@ -329,6 +337,25 @@ public class Unit : MonoBehaviour
         SyncSlider();
 
         if (currentHp == 0) Die();
+    }
+
+    public void OnHeal(float amount)
+    {
+        if (isDying) return;
+
+        // 회복량 표기
+        CreateText(amount.ToString(), Color.green);
+
+        currentHp += amount;
+        if (currentHp > maxHp)
+        {
+            currentHp = maxHp;                        
+        }
+        
+        SyncSlider();
+
+        // 풀피일때 hp 게이지 비활성화
+        if (currentHp == maxHp) hpBar.gameObject.SetActive(false);
     }
 
     void Die()
@@ -422,6 +449,16 @@ public class Unit : MonoBehaviour
                 sprite.color = Color.white;
 
             yield return null;
+        }
+    }
+
+    IEnumerator HealthRegenCr()
+    {
+        while (true)
+        {
+            if (hpRegen != 0 && currentHp < maxHp) OnHeal(hpRegen);
+
+            yield return new WaitForSeconds(3);
         }
     }
 

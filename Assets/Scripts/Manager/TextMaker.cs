@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,12 +32,13 @@ public class TextMaker : MonoBehaviour
     }
 
     // 월드좌표 기준 텍스트 생성 (카메라 위치와 독립적)
-    public void CreateWolrdText(Vector3 pos, string _text)
+    public void CreateWolrdText(Vector3 pos, string _text, Color color)
     {
         //Debug.Log("CreateText");
         Text txt = Instantiate(textUI, pos, Quaternion.identity, worldCanvas).GetComponent<Text>();
         txt.rectTransform.SetParent(worldCanvas);
         txt.text = _text;
+        txt.color = color;
     }
 
     // 카메라 좌표 기준 텍스트 생성 (카메라 위치에 종속적)

@@ -112,7 +112,7 @@ public class Angel: MonoBehaviour
 
             // 자식이 unit 스크립트를 가지고 있는 경우, unit에게 피해
             Unit unit = parent.GetChild(i).GetComponentInChildren<Unit>();
-            if (unit) unit.Hit(damage);
+            if (unit) unit.OnHit(damage);
         }        
     }
 }

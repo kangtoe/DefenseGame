@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
         {
             // 자식이 unit 스크립트를 가지고 있는 경우, unit에게 즉사에 해당하는 피해
             Unit unit = parent.GetChild(i).GetComponentInChildren<Unit>();
-            if (unit) unit.Hit(99999);
+            if (unit) unit.OnHit(99999);
         }
     }
 
