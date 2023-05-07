@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +24,7 @@ public class SpwanManager : MonoBehaviour
 
     public void SpwanUnit(GameObject unit)
     {
-        Debug.Log("spwan unit:" + unit.name);
+        //Debug.Log("spwan unit:" + unit.name);
 
         // 생성
         Vector3 spwanPos = GetRamdomSpwanPos();

@@ -15,7 +15,6 @@ public enum UnitType
 {
     undefined = 0,
     hero = 97,
-    skillUnit = 98, // 다른 유닛과 직접적인 상호작용 없음. 스킬을 위해 존재
     teamBase = 99 // 팀 베이스. 파괴시 패배
 }
 
@@ -46,7 +45,6 @@ public class Unit : MonoBehaviour
     [Header("타격 & 식별 정보")]
     public bool isEnemy = false; // 적(오른쪽에서 등장, 왼쪽으로 진행)인가?
     LayerMask targetLayer; // 공격 대상 레이어
-    bool hasTarget = false; // 공격 대상이 존재하는가
     bool isDying = false; // 사망 애니메이션 재생 중
     bool isAttacking = false; // 공격 애니메이션 재생 중
     float hurtEndTime = 0f; // 피격 효과 적용이 끝나는 시간 (현재시간+지속기간)
@@ -62,17 +60,18 @@ public class Unit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Unit start : " + transform.name);
-
-        if (unitType == UnitType.skillUnit) return;
+        //Debug.Log("Unit start : " + transform.name);
 
         coll = GetComponentInChildren<Collider2D>();
-        sprite = GetComponentInChildren<SpriteRenderer>();
-        anim = GetComponentInChildren<Animator>();
+        sprite = GetComponentInChildren<SpriteRenderer>();        
         hpBar = GetComponentInChildren<Slider>();
-        parser = GetComponentInChildren<AnimationEventParser>();
-        parser.OnAttack.AddListener(Attack);
-        parser.OnEndAttack.AddListener(EndAttackAnimation);
+        anim = GetComponentInChildren<Animator>();
+        if (unitType != UnitType.teamBase)
+        {
+            parser = GetComponentInChildren<AnimationEventParser>();
+            parser.OnAttack.AddListener(Attack);
+            parser.OnEndAttack.AddListener(EndAttackAnimation);
+        }        
 
         // 바라보는 방향(오른쪽 => 1, 왼쪽 => -1)
         if (!isEnemy) dir = 1; else dir = -1;
@@ -100,8 +99,6 @@ public class Unit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {        
-        if (unitType == UnitType.skillUnit) return;
-
         // 활동 영역을 벗어나게 되면 유닛 삭제
         if (!GameManager.instance.CheckInUnitArea(transform.position))
         {
@@ -112,14 +109,12 @@ public class Unit : MonoBehaviour
 
         //if(attackType != AttackType.none) Debug.Log("isAttacking: " + isAttacking);
 
-        if (isDying) return;
-        if (isAttacking) return;
+        if (isDying) return;        
 
-        //if (!hasTarget) TargetCheck();
-        TargetCheck();        
-
+        bool hasTarget = HasTarget();
         if (hasTarget) PlayAttackAnimation();
-        else Move();
+
+        Move();
     }
 
     void OnDrawGizmos()
@@ -131,7 +126,7 @@ public class Unit : MonoBehaviour
         {
             // 근접공격의 경우, 타겟 탐지거리는 공격거리보다 약간 더 짧음
             float tragetSearchRange = attackRange;
-            if (attackType == AttackType.melee) tragetSearchRange -= 1;
+            if (attackType == AttackType.melee) tragetSearchRange -= 0.5f;
             Gizmos.DrawLine(transform.position + Vector3.up, transform.position + Vector3.up + new Vector3(dir * tragetSearchRange, 0, 0));
         }        
     }
@@ -148,22 +143,37 @@ public class Unit : MonoBehaviour
     #region 이동 관련
 
     void Move()
-    {                
-
-        if (isAttacking) return;
-
+    {
         if (unitType == UnitType.hero)
         {
+            // 입력 방향
             int xInput = (int)Input.GetAxisRaw("Horizontal");
-
-            if (Input.GetAxisRaw("Horizontal") != 0)
+            // 현재 바라보는 방향
+            int _dir = (transform.right.x > 0 ? 1 : -1);
+            
+            if (Input.GetAxisRaw("Horizontal") == 0)
             {
-                // FlipCheck
-                int _dir = (transform.right.x > 0 ? 1 : -1);
+                //Debug.Log("Input false");
+                // 이동 입력 없는 경우, 오른쪽을 바라보도록                      
+                if (_dir != 1)
+                {
+                    Flip();
+                }
+            }
+            else
+            {
+                //Debug.Log("Input true");
+                // 이동 입력 있는 경우, 입력 방향을 바라보도록
                 if (_dir != xInput)
                 {
                     Flip();
                 }
+
+                if (isAttacking)
+                {
+                    Debug.Log("stop attack");
+                    EndAttackAnimation();
+                } 
             }
 
             // 입력에 따른 이동
@@ -174,8 +184,22 @@ public class Unit : MonoBehaviour
             // 이동 제한
             LimitMove();
         }
+        else
+        {
+            if (isAttacking) return;
 
-        transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+        }        
+    }
+    
+    void LimitMove()
+    {
+        float margin = 0.05f;
+
+        // 카메라를 벗어나지 않도록 범위 제한
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        pos.x = Mathf.Clamp(pos.x, 0 + margin, 1 - margin);
+        transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
     // 적 캐릭터일 경우 반전
@@ -187,24 +211,14 @@ public class Unit : MonoBehaviour
         hpBar.transform.Rotate(0, 180, 0);
     }
 
-    void LimitMove()
-    {
-        float margin = 0.05f;
-
-        // 카메라를 벗어나지 않도록 범위 제한
-        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
-        pos.x = Mathf.Clamp(pos.x, 0 + margin, 1 - margin);
-        transform.position = Camera.main.ViewportToWorldPoint(pos);
-    }
-
     #endregion
 
     #region 공격 관련 메소드
 
     // 공격 대상 검색
-    void TargetCheck()
+    bool HasTarget()
     {
-        if (attackType == AttackType.none) return;
+        if (attackType == AttackType.none) return false;
 
         int dir; // 바라보는 방향(오른쪽 => 1, 왼쪽 => -1)
         if (!isEnemy) dir = 1; else dir = -1;
@@ -215,15 +229,15 @@ public class Unit : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up, transform.right, tragetSearchRange, targetLayer);
 
-        if (hit) hasTarget = true;
-        else hasTarget = false;
+        if (hit) return true;
+        else return false;
     }
 
     // 공격 애니메이션에서 호출
     // 근접 => 범위 모든 대상 타격, 원거리 => 발사체 생성
     public void Attack()
     {
-        Debug.Log(name + " : attack");
+        //Debug.Log(name + " : attack");
 
         if (attackType == AttackType.none)
         {
@@ -292,7 +306,7 @@ public class Unit : MonoBehaviour
     // 피해를 받음
     public void Hit(float amount)
     {
-        Debug.Log(name + " : Hit");
+        //Debug.Log(name + " : Hit");
 
         if (isDying) return;
 
