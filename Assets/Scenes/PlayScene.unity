@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -530,18 +530,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 884438194}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &138617067 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3687905193769816575, guid: 8335bd2e35e11194ca8ae3a7b865159a,
-    type: 3}
-  m_PrefabInstance: {fileID: 884438194}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &178896601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1131,6 +1119,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 385186916}
+  - component: {fileID: 385186917}
   m_Layer: 0
   m_Name: EnemyBase
   m_TagString: Untagged
@@ -1154,6 +1143,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &385186917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 385186915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104651c5fe916fa4397e1a3ef5a9d9d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePoint: {fileID: 0}
+  bulletPrefab: {fileID: 0}
+  unitType: 99
+  attackType: 99
+  price: 0
+  spwanCooltime: 0
+  maxHp: 5000
+  moveSpeed: 0
+  attackRange: 0
+  damage: 0
+  impact: 0
+  isEnemy: 1
+  damageTextPonit: {fileID: 0}
+  deathEffectPrefab: {fileID: 9079989737093836079, guid: e8f7d88871a336c489386d0c751a50a9,
+    type: 3}
 --- !u!1 &387959540
 GameObject:
   m_ObjectHideFlags: 0
@@ -1710,7 +1726,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 460161508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.51, y: -1.85, z: 10}
+  m_LocalPosition: {x: -20.51, y: -1.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1748,7 +1764,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 8
-  dir: 1
 --- !u!1 &466832185
 GameObject:
   m_ObjectHideFlags: 0
@@ -2520,7 +2535,6 @@ GameObject:
   - component: {fileID: 763695979}
   - component: {fileID: 763695978}
   - component: {fileID: 763695980}
-  - component: {fileID: 763695981}
   m_Layer: 8
   m_Name: wagon
   m_TagString: Enemy
@@ -2609,36 +2623,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0.06449922, y: -0.28318915}
   m_Size: {x: 5.1300306, y: 6.1388464}
   m_Direction: 0
---- !u!114 &763695981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 763695977}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104651c5fe916fa4397e1a3ef5a9d9d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  damageTextPonit: {fileID: 0}
-  animator: {fileID: 0}
-  bulletPrefab: {fileID: 0}
-  deathEffectPrefab: {fileID: 9079989737093836079, guid: e8f7d88871a336c489386d0c751a50a9,
-    type: 3}
-  hpBar: {fileID: 138617067}
-  spriterRenderer: {fileID: 763695978}
-  unitType: 99
-  price: 0
-  spwanCooltime: 0
-  maxHp: 5000
-  moveSpeed: 0
-  attackRange: 0
-  damage: 0
-  impact: 0
-  attackType: 99
-  isEnemy: 1
 --- !u!1 &764753246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2853,7 +2837,6 @@ GameObject:
   m_Component:
   - component: {fileID: 778468306}
   - component: {fileID: 778468307}
-  - component: {fileID: 778468308}
   - component: {fileID: 778468309}
   m_Layer: 10
   m_Name: house-a
@@ -2930,36 +2913,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &778468308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 778468305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 104651c5fe916fa4397e1a3ef5a9d9d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firePoint: {fileID: 0}
-  damageTextPonit: {fileID: 637463066}
-  animator: {fileID: 0}
-  bulletPrefab: {fileID: 0}
-  deathEffectPrefab: {fileID: 9079989737093836079, guid: e8f7d88871a336c489386d0c751a50a9,
-    type: 3}
-  hpBar: {fileID: 1676058888}
-  spriterRenderer: {fileID: 778468307}
-  unitType: 99
-  price: 0
-  spwanCooltime: 0
-  maxHp: 5000
-  moveSpeed: 0
-  attackRange: 0
-  damage: 0
-  impact: 0
-  attackType: 99
-  isEnemy: 0
 --- !u!70 &778468309
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -4847,6 +4800,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1224005648}
+  - component: {fileID: 1224005649}
   m_Layer: 0
   m_Name: PlayerBase
   m_TagString: Untagged
@@ -4870,6 +4824,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1224005649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1224005647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104651c5fe916fa4397e1a3ef5a9d9d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePoint: {fileID: 0}
+  bulletPrefab: {fileID: 0}
+  unitType: 99
+  attackType: 99
+  price: 0
+  spwanCooltime: 0
+  maxHp: 5000
+  moveSpeed: 0
+  attackRange: 0
+  damage: 0
+  impact: 0
+  isEnemy: 0
+  damageTextPonit: {fileID: 637463066}
+  deathEffectPrefab: {fileID: 9079989737093836079, guid: e8f7d88871a336c489386d0c751a50a9,
+    type: 3}
 --- !u!1 &1225679158
 GameObject:
   m_ObjectHideFlags: 0
@@ -11253,18 +11234,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1676058886}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1676058888 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3687905193769816575, guid: 8335bd2e35e11194ca8ae3a7b865159a,
-    type: 3}
-  m_PrefabInstance: {fileID: 1676058886}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1684214949
 GameObject:
   m_ObjectHideFlags: 0

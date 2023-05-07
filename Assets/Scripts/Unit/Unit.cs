@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,25 +14,28 @@ public enum AttackType
 public enum UnitType
 {
     undefined = 0,
+    hero = 97,
     skillUnit = 98, // 다른 유닛과 직접적인 상호작용 없음. 스킬을 위해 존재
     teamBase = 99 // 팀 베이스. 파괴시 패배
 }
 
 public class Unit : MonoBehaviour
-{   
-    // 컴포넌트    
-    //public Transform UI_object; // 적 캐릭터 반전 시 ui는 반전 대상에서 제외
-    public Transform firePoint; // 원거리 발사체 생성 위치
-    public Transform damageTextPonit; // 피해량 표기 위치(null인 경우 기본 위치는 hp bar 위쪽)
-    public Animator animator;
-    public GameObject bulletPrefab;
-    public GameObject deathEffectPrefab;
-    public Slider hpBar;
-    public SpriteRenderer spriterRenderer;
+{    
+    // 컴포넌트
+    Animator anim;
+    //Transform UI_object; // 적 캐릭터 반전 시 ui는 반전 대상에서 제외    
+    Slider hpBar;
+    SpriteRenderer sprite;
     Collider2D coll;
+    AnimationEventParser parser;
 
-    // 수치
+    [Header("발사체")]
+    public Transform firePoint; // 원거리 발사체 생성 위치
+    public GameObject bulletPrefab;
+
+    [Header("유닛 수치 정보")]
     public UnitType unitType;
+    public AttackType attackType;
     public int price; // 생산에 필요한 가격
     public float spwanCooltime; // 최소 생산 간격(초)
     public float maxHp;
@@ -40,10 +43,9 @@ public class Unit : MonoBehaviour
     public float moveSpeed;
     public float attackRange; // 공격거리 == 적 탐색거리
     public float damage;
-    public int impact; // 공격의 충격량
-    public AttackType attackType;
+    public int impact; // 공격의 충격량    
 
-    // 타격&식별    
+    [Header("타격 & 식별 정보")]
     public bool isEnemy = false; // 적(오른쪽에서 등장, 왼쪽으로 진행)인가?
     LayerMask targetLayer; // 공격 대상 레이어
     bool hasTarget = false; // 공격 대상이 존재하는가
@@ -53,14 +55,26 @@ public class Unit : MonoBehaviour
     float hitEffectDuration = 0.1f;
     int dir; // 바라보는 방향(오른쪽 => 1, 왼쪽 => -1)
 
+    [Header("피격 & 사망")]
+    public Transform damageTextPonit; // 피해량 표기 위치(null인 경우 기본 위치는 hp bar 위쪽)
+    public GameObject deathEffectPrefab;
+
     #region 유니티 라이프 사이클
 
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Unit start : " + transform.parent.name);
+        Debug.Log("Unit start : " + transform.name);
 
         if (unitType == UnitType.skillUnit) return;
+
+        coll = GetComponentInChildren<Collider2D>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
+        anim = GetComponentInChildren<Animator>();
+        hpBar = GetComponentInChildren<Slider>();
+        parser = GetComponentInChildren<AnimationEventParser>();
+        parser.OnAttack.AddListener(Attack);
+        parser.OnEndAttack.AddListener(EndAttackAnimation);
 
         // 바라보는 방향(오른쪽 => 1, 왼쪽 => -1)
         if (!isEnemy) dir = 1; else dir = -1;
@@ -72,36 +86,31 @@ public class Unit : MonoBehaviour
         // 적일 경우 뒤집기
         if (isEnemy) Flip();
 
-        // 레이어 관련 설정
-        SetLayer();
-        SetTargetLayer();
+        // 자신 레이어 설정
+        if (isEnemy) coll.gameObject.layer = LayerMask.NameToLayer("Enemy");
+        else coll.gameObject.layer = LayerMask.NameToLayer("Player");
+
+        // 타겟 레이어 설정
+        if (isEnemy) targetLayer = 1 << LayerMask.NameToLayer("Player");
+        else targetLayer = 1 << LayerMask.NameToLayer("Enemy");
 
         // 피격 효과를 검사하는 코루틴
-        StartCoroutine(ShakeCheck(0.2f, 0.05f));
-        StartCoroutine(BlinkCheck());
-
-        coll = GetComponent<Collider2D>();
+        //StartCoroutine(ShakeCheck(0.2f, 0.05f));
+        StartCoroutine(BlinkCheck());        
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {        
         if (unitType == UnitType.skillUnit) return;
+
         // 활동 영역을 벗어나게 되면 유닛 삭제
-        if (!GameManager.instance.CheckInUnitArea(transform.parent.position))
-            Destroy(transform.parent.gameObject);
+        if (!GameManager.instance.CheckInUnitArea(transform.position))
+        {
+            Destroy(transform.gameObject);
+        }         
 
         DyingAnimationCheck();
-
-        #region 탐지&공격 거리 디버깅
-        if (attackType != AttackType.none)
-        {
-            // 근접공격의 경우, 타겟 탐지거리는 공격거리보다 약간 더 짧음
-            float tragetSearchRange = attackRange;
-            if (attackType == AttackType.melee) tragetSearchRange -= 1;
-            Debug.DrawLine(transform.parent.position + Vector3.up, transform.parent.position + Vector3.up + new Vector3(dir * tragetSearchRange, 0, 0));
-        }            
-        #endregion
 
         //if(attackType != AttackType.none) Debug.Log("isAttacking: " + isAttacking);
 
@@ -109,15 +118,28 @@ public class Unit : MonoBehaviour
         if (isAttacking) return;
 
         //if (!hasTarget) TargetCheck();
-        TargetCheck();
+        TargetCheck();        
 
         if (hasTarget) PlayAttackAnimation();
         else Move();
     }
 
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        // 공격 거리 표기
+        if (attackType != AttackType.none)
+        {
+            // 근접공격의 경우, 타겟 탐지거리는 공격거리보다 약간 더 짧음
+            float tragetSearchRange = attackRange;
+            if (attackType == AttackType.melee) tragetSearchRange -= 1;
+            Gizmos.DrawLine(transform.position + Vector3.up, transform.position + Vector3.up + new Vector3(dir * tragetSearchRange, 0, 0));
+        }        
+    }
+
     #endregion
 
-    #region 생성 시 설정
     // 적 유닛일 경우, SpwanManager에서 호출
     public void SetEnemy()
     {
@@ -125,40 +147,65 @@ public class Unit : MonoBehaviour
         //Debug.Log("SetEnemy");
     }
 
+    #region 이동 관련
+
+    void Move()
+    {                
+
+        if (isAttacking) return;
+
+        if (unitType == UnitType.hero)
+        {
+            int xInput = (int)Input.GetAxisRaw("Horizontal");
+
+            if (Input.GetAxisRaw("Horizontal") != 0)
+            {
+                // FlipCheck
+                int _dir = (transform.right.x > 0 ? 1 : -1);
+                if (_dir != xInput)
+                {
+                    Flip();
+                }
+            }
+
+            // 입력에 따른 이동
+            float xMove = moveSpeed * Time.deltaTime * Mathf.Abs(xInput);
+            anim.SetFloat("move", Mathf.Abs(xMove));
+            transform.Translate(xMove, 0, 0);
+
+            // 이동 제한
+            LimitMove();
+        }
+
+        transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+    }
+
     // 적 캐릭터일 경우 반전
     void Flip()
     {
-        transform.parent.Rotate(0, 180, 0);
-        // ui 는 한번 더 뒤집어 원래대로 복원
-        //UI_object.Rotate(0, -180, 0);
-        hpBar.transform.Rotate(0, -180, 0);
+        transform.Rotate(0, 180, 0);
+
+        // ui는 한번 더 뒤집어 원래대로 복원        
+        hpBar.transform.Rotate(0, 180, 0);
     }
 
-    // 자기 레이어 설정
-    void SetLayer()
+    void LimitMove()
     {
-        if (isEnemy) gameObject.layer = LayerMask.NameToLayer("Enemy");
-        else targetLayer = LayerMask.NameToLayer("Player");
+        float margin = 0.05f;
+
+        // 카메라를 벗어나지 않도록 범위 제한
+        Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
+        pos.x = Mathf.Clamp(pos.x, 0 + margin, 1 - margin);
+        transform.position = Camera.main.ViewportToWorldPoint(pos);
     }
 
-    // 타겟 레이어 설정
-    void SetTargetLayer()
-    {
-        if (isEnemy) targetLayer = 1 << LayerMask.NameToLayer("Player");
-        else targetLayer = 1 << LayerMask.NameToLayer("Enemy");
-    }
     #endregion
 
-    void Move()
-    {
-        if (isAttacking) return;
-
-        transform.parent.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-    }
+    #region 공격 관련 메소드
 
     // 공격 대상 검색
     void TargetCheck()
-    {       
+    {
         if (attackType == AttackType.none) return;
 
         int dir; // 바라보는 방향(오른쪽 => 1, 왼쪽 => -1)
@@ -168,20 +215,17 @@ public class Unit : MonoBehaviour
         float tragetSearchRange = attackRange;
         if (attackType == AttackType.melee) tragetSearchRange -= 1;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.parent.position + Vector3.up, Vector2.right * dir, tragetSearchRange, targetLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up, transform.right, tragetSearchRange, targetLayer);
 
         if (hit) hasTarget = true;
         else hasTarget = false;
-
     }
-
-    #region 공격 관련 메소드
 
     // 공격 애니메이션에서 호출
     // 근접 => 범위 모든 대상 타격, 원거리 => 발사체 생성
     public void Attack()
     {
-        //Debug.Log("attack");
+        Debug.Log(name + " : attack");
 
         if (attackType == AttackType.none)
         {
@@ -190,20 +234,14 @@ public class Unit : MonoBehaviour
         if (attackType == AttackType.melee)
         {
             // OverlapBox2d로 범위 내 모든 적 알아오기
-            Vector2 overlapBoxCenter = transform.parent.position + Vector3.up + new Vector3(attackRange/2, 0, 0) * dir;
+            Vector2 overlapBoxCenter = transform.position + Vector3.up + new Vector3(attackRange/2, 0, 0) * dir;
             Vector2 boxSize = new Vector2(attackRange, 1);
-            Collider2D[] hits = Physics2D.OverlapBoxAll(overlapBoxCenter, boxSize, 0);
+            Collider2D[] hits = Physics2D.OverlapBoxAll(overlapBoxCenter, boxSize, 0, targetLayer);
 
             // 알아온 적 각각에 피해 주기
             for (int i = 0; i < hits.Length; i++)
             {
-                int layerMask = 1 << hits[i].gameObject.layer;
-
-                // targetLayer의 대상인지 검사
-                if (layerMask == targetLayer)
-                {
-                    hits[i].GetComponentInChildren<Unit>().Hit(damage);
-                }
+                hits[i].attachedRigidbody.GetComponent<Unit>().Hit(damage);
             }
         }
         if (attackType == AttackType.range)
@@ -215,13 +253,13 @@ public class Unit : MonoBehaviour
         if (attackType == AttackType.targeting)
         {
             // OverlapBox2d로 범위 내, targetLayer에서 하나의 적 알아오기
-            Vector2 overlapBoxCenter = transform.parent.position + Vector3.up + new Vector3(attackRange / 2, 0, 0) * dir;
+            Vector2 overlapBoxCenter = transform.position + Vector3.up + new Vector3(attackRange / 2, 0, 0) * dir;
             Vector2 boxSize = new Vector2(attackRange, 1);
             Collider2D hit = Physics2D.OverlapBox(overlapBoxCenter, boxSize, 0, targetLayer);
 
             // 알아온 적에게 피해 주기
             if (!hit) return;
-            hit.GetComponentInChildren<Unit>().Hit(damage);
+            hit.attachedRigidbody.GetComponent<Unit>().Hit(damage);
         }
     }
 
@@ -235,7 +273,7 @@ public class Unit : MonoBehaviour
         //Debug.Log("PlayAttackAnimation");
 
         isAttacking = true;
-        animator.SetBool("attack", true);
+        anim.SetBool("attack", true);
     }
 
     // 공격 애니메이션 종료시, 애니메이터에서 호출    
@@ -246,7 +284,7 @@ public class Unit : MonoBehaviour
         //Debug.Log("EndAttackAnimation");
 
         isAttacking = false;
-        animator.SetBool("attack", false);
+        anim.SetBool("attack", false);
     }
 
     #endregion
@@ -256,6 +294,8 @@ public class Unit : MonoBehaviour
     // 피해를 받음
     public void Hit(float amount)
     {
+        Debug.Log(name + " : Hit");
+
         if (isDying) return;
 
         // 피격 후 hp바 활성화
@@ -289,7 +329,7 @@ public class Unit : MonoBehaviour
 
             // 폭발 프리팹이 존재하면 생성
             if (deathEffectPrefab) Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
-            Destroy(transform.parent.gameObject);
+            Destroy(transform.gameObject);
         }
         // 일반 유닛 파괴 시
         else
@@ -304,10 +344,10 @@ public class Unit : MonoBehaviour
     {
         isDying = true;
 
-        if (animator)
+        if (anim)
         {
-            animator.Rebind(); // 애니메이션 초기화 (normalized time 초기화 목적)
-            animator.SetTrigger("die");            
+            anim.Rebind(); // 애니메이션 초기화 (normalized time 초기화 목적)
+            anim.SetTrigger("die");            
         }
     }
 
@@ -318,7 +358,7 @@ public class Unit : MonoBehaviour
         if (!isDying) return;
         
         // 사망 애니메이션 종료 시
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
+        if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1.0f)
         {
             //Debug.Log("Destroy:" + transform.parent.name);
             //Debug.Log("anim time:" + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
@@ -326,7 +366,7 @@ public class Unit : MonoBehaviour
             // 폭발 프리팹이 존재하면 생성
             //if (deathEffectPrefab) Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
 
-            Destroy(transform.parent.gameObject);
+            Destroy(transform.gameObject);
         }        
     }
 
@@ -365,9 +405,9 @@ public class Unit : MonoBehaviour
         {
             // shake time이면 흔들림 적용, 아니면 본래 위치로.
             if (Time.time < hurtEndTime)
-                spriterRenderer.color = Color.red;             
+                sprite.color = Color.red;             
             else
-                spriterRenderer.color = Color.white;
+                sprite.color = Color.white;
 
             yield return null;
         }

@@ -9,8 +9,8 @@ public class PlayerCharacter : MonoBehaviour
 
     Animator anim;
 
-    [SerializeField]
-    int dir = 1; // 1 : ¿À¸¥ÂÊ, -1: ¿ŞÂÊ
+    //[SerializeField]
+    //int dir = 1; // 1 : ì˜¤ë¥¸ìª½, -1: ì™¼ìª½
 
     // Start is called before the first frame update
     void Start()
@@ -20,41 +20,39 @@ public class PlayerCharacter : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {                
-        // ÀÔ·Â¿¡ µû¸¥ ÀÌµ¿
-        float xMove = Input.GetAxisRaw("Horizontal") * moveSpeed * Time.deltaTime;
-        transform.Translate(xMove, 0 ,0);
-        anim.SetFloat("move", Mathf.Abs(xMove));
-
-        // ÀÌµ¿ Á¦ÇÑ
-        LimitMove();
-
-        // ÇÃ¸³
-        if (xMove >= 0) dir = 1;
-        else dir = -1;
-        FlipCheck();
-    }
-
-    void FlipCheck()
     {
-        int _dir = (transform.localScale.x > 0 ? 1 : -1);
+        int xInput = (int)Input.GetAxisRaw("Horizontal");
 
-        if (_dir != dir)
+        if (Input.GetAxisRaw("Horizontal") != 0)
         {
-            Flip();
+            // FlipCheck
+            int _dir = (transform.right.x > 0 ? 1 : -1);
+            if (_dir != xInput)
+            {
+                Flip();
+            }                                  
         }
+
+        // ì…ë ¥ì— ë”°ë¥¸ ì´ë™
+        float xMove = moveSpeed * Time.deltaTime * Mathf.Abs(xInput);
+        anim.SetFloat("move", Mathf.Abs(xMove));
+        transform.Translate(xMove, 0, 0);
+
+        // ì´ë™ ì œí•œ
+        LimitMove();
     }
 
     void Flip()
     {
-        transform.localScale *= new Vector2(-1, 1);
+        Debug.Log("flip");
+        transform.Rotate(0, 180, 0);
     }
 
     void LimitMove()
     {
         float margin = 0.05f;
 
-        // Ä«¸Ş¶ó¸¦ ¹ş¾î³ªÁö ¾Êµµ·Ï ¹üÀ§ Á¦ÇÑ
+        // ì¹´ë©”ë¼ë¥¼ ë²—ì–´ë‚˜ì§€ ì•Šë„ë¡ ë²”ìœ„ ì œí•œ
         Vector3 pos = Camera.main.WorldToViewportPoint(transform.position);
         pos.x = Mathf.Clamp(pos.x, 0 + margin, 1 - margin);        
         transform.position = Camera.main.ViewportToWorldPoint(pos);

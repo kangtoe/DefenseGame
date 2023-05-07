@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -55,7 +55,7 @@ public class Projectile : MonoBehaviour
         {
             //Debug.Log("hit");
 
-            Unit obj = coll.gameObject.GetComponent<Unit>();
+            Unit obj = coll.attachedRigidbody.GetComponent<Unit>();
 
             obj.Hit(damage);
 
