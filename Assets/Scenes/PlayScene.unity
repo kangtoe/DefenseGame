@@ -898,7 +898,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reviveText: {fileID: 508677034}
-  reviveTime: 1
+  reviveTime: 10
   reviveEffect: {fileID: 4893613970570251796, guid: 40d5beba241415b4b8fa6048c616cc80,
     type: 3}
   heroPrefab: {fileID: 6955305936928854927, guid: 3687ae8e38ecad44aab0d97b0ee31cb9,
@@ -2279,7 +2279,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &572564038
 Canvas:
   m_ObjectHideFlags: 0
@@ -2389,7 +2389,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 637463066}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: damageTextPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2568,9 +2568,9 @@ GameObject:
   - component: {fileID: 763695979}
   - component: {fileID: 763695978}
   - component: {fileID: 763695980}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: wagon
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2871,7 +2871,7 @@ GameObject:
   - component: {fileID: 778468306}
   - component: {fileID: 778468307}
   - component: {fileID: 778468309}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: house-a
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3620,8 +3620,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1917193776}
-  - {fileID: 1218890960}
   - {fileID: 1558094240}
+  - {fileID: 1218890960}
   - {fileID: 1636830809}
   - {fileID: 2102347715}
   - {fileID: 84092748}
@@ -4743,7 +4743,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 963194228}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1222843669
 GameObject:
@@ -10276,7 +10276,7 @@ Transform:
   m_LocalScale: {x: 24, y: 18, z: 1}
   m_Children: []
   m_Father: {fileID: 963194228}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1558094241
 MonoBehaviour:

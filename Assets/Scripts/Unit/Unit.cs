@@ -84,13 +84,28 @@ public class Unit : MonoBehaviour
         // 적일 경우 뒤집기
         if (isEnemy) Flip();
 
-        // 자신 레이어 설정
-        if (isEnemy) coll.gameObject.layer = LayerMask.NameToLayer("Enemy");
-        else coll.gameObject.layer = LayerMask.NameToLayer("Player");
+        if (unitType == UnitType.teamBase)
+        {
+            // 자신 레이어 설정
+            if (isEnemy) coll.gameObject.layer = LayerMask.NameToLayer("EnemyBase");
+            else coll.gameObject.layer = LayerMask.NameToLayer("PlayerBase");
+        }     
+        else
+        {
+            // 자신 레이어 설정
+            if (isEnemy) coll.gameObject.layer = LayerMask.NameToLayer("EnemyUnit");
+            else coll.gameObject.layer = LayerMask.NameToLayer("PlayerUnit");
 
-        // 타겟 레이어 설정
-        if (isEnemy) targetLayer = 1 << LayerMask.NameToLayer("Player");
-        else targetLayer = 1 << LayerMask.NameToLayer("Enemy");
+            // 타겟 레이어 설정
+            if (isEnemy) targetLayer = 1 << LayerMask.NameToLayer("PlayerUnit");
+            else targetLayer = 1 << LayerMask.NameToLayer("EnemyUnit");
+
+            if (unitType != UnitType.hero)
+            {
+                if (isEnemy) targetLayer += 1 << LayerMask.NameToLayer("PlayerBase");
+                else targetLayer += 1 << LayerMask.NameToLayer("EnemyBase");                
+            }            
+        }        
 
         // 피격 효과를 검사하는 코루틴
         //StartCoroutine(ShakeCheck(0.2f, 0.05f));
@@ -111,12 +126,15 @@ public class Unit : MonoBehaviour
 
         //if(attackType != AttackType.none) Debug.Log("isAttacking: " + isAttacking);
 
-        if (isDying) return;        
+        if (isDying) return;
 
-        bool hasTarget = HasTarget();
-        if (hasTarget) PlayAttackAnimation();
+        if (!isAttacking)
+        {
+            bool hasTarget = HasTarget();
+            if (hasTarget) PlayAttackAnimation();
+        }        
 
-        Move();
+        MoveCheck();
     }
 
     void OnDrawGizmos()
@@ -152,7 +170,7 @@ public class Unit : MonoBehaviour
 
     #region 이동 관련
 
-    void Move()
+    void MoveCheck()
     {
         if (unitType == UnitType.hero)
         {

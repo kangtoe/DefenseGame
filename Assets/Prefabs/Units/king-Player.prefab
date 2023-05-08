@@ -52,11 +52,11 @@ MonoBehaviour:
     type: 3}
   unitType: 97
   attackType: 0
-  maxHp: 1
+  maxHp: 200
   hpRegen: 10
   moveSpeed: 8
   attackRange: 5.5
-  damage: 80
+  damage: 20
   impact: 0
   isEnemy: 0
   damageTextPonit: {fileID: 0}
