@@ -55,6 +55,11 @@ public class SceneChangeManager : MonoBehaviour
         StartCoroutine(SceneChange("TitleScene"));
     }
 
+    public void ToUnitShop()
+    {
+        StartCoroutine(SceneChange("UnitScene"));
+    }
+
     // scene 에서 나갈때 호출, 인수는 전환 대상 scene
     IEnumerator SceneChange(string seceneName)
     {
