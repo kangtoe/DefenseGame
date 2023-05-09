@@ -33,25 +33,20 @@ public class Projectile : MonoBehaviour
 
     // Unit에서 총알을 생성할때 호출
     public void Init(LayerMask _targetLayer, float _damage, int _impact)
-    {
+    {        
         targetLayer = _targetLayer;
         damage = _damage;
         impact = _impact;
     }
 
-    public void SetTargetLayer(LayerMask layerMask)
-    {
-        targetLayer = layerMask;
-    }
-
     private void OnTriggerEnter2D(Collider2D coll)
-    {
+    {        
         if (!firstStrike) return;
 
-        int layerMask = 1 << coll.gameObject.layer;
+        int layerIndex = 1 << coll.gameObject.layer;
 
         // 레이어 마스크에 포함된 마스크인지 검사
-        if ((targetLayer & layerMask) == targetLayer)
+        if ((targetLayer.value & layerIndex) == layerIndex)
         {
             //Debug.Log("hit");
 
