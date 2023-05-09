@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -530,6 +530,52 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 884438194}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &171131083
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 171131084}
+  - component: {fileID: 171131085}
+  m_Layer: 0
+  m_Name: SceneChangeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &171131084
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171131083}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1490056960}
+  - {fileID: 183337227}
+  m_Father: {fileID: 1665774893}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &171131085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171131083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71df7fb29241e7b4b800ad7ce3314505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blackOutImage: {fileID: 1060125779}
 --- !u!1 &178896601
 GameObject:
   m_ObjectHideFlags: 0
@@ -605,6 +651,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 178896601}
   m_CullTransparentMesh: 0
+--- !u!1 &183337226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 183337227}
+  m_Layer: 0
+  m_Name: UnitAreaEnd
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &183337227
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183337226}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.55, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 171131084}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &197116890
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +959,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665774893}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &226142874
 MonoBehaviour:
@@ -1141,7 +1217,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665774893}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &363056385
 MonoBehaviour:
@@ -1333,7 +1409,7 @@ RectTransform:
   m_LocalScale: {x: 0.01, y: 0.01, z: 1}
   m_Children: []
   m_Father: {fileID: 1665774893}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2738,8 +2814,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 319337577}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 171131085}
+        m_TargetAssemblyTypeName: SceneChangeManager, Assembly-CSharp
         m_MethodName: GameStart
         m_Mode: 1
         m_Arguments:
@@ -2840,8 +2916,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 319337577}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 171131085}
+        m_TargetAssemblyTypeName: SceneChangeManager, Assembly-CSharp
         m_MethodName: ToTitleScene
         m_Mode: 1
         m_Arguments:
@@ -2994,7 +3070,7 @@ Transform:
   - {fileID: 406562602}
   - {fileID: 739812953}
   m_Father: {fileID: 1665774893}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &795024268
 MonoBehaviour:
@@ -4136,7 +4212,7 @@ Transform:
   - {fileID: 1238090977}
   - {fileID: 541172509}
   m_Father: {fileID: 1665774893}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1057517342
 MonoBehaviour:
@@ -4455,8 +4531,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 319337577}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 171131085}
+        m_TargetAssemblyTypeName: SceneChangeManager, Assembly-CSharp
         m_MethodName: ToTitleScene
         m_Mode: 1
         m_Arguments:
@@ -4934,7 +5010,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665774893}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1225679160
 MonoBehaviour:
@@ -4995,7 +5071,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1238426454
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5227,8 +5303,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 319337577}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 171131085}
+        m_TargetAssemblyTypeName: SceneChangeManager, Assembly-CSharp
         m_MethodName: GameStart
         m_Mode: 1
         m_Arguments:
@@ -6561,6 +6637,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1485282518}
   m_CullTransparentMesh: 0
+--- !u!1 &1490056959
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1490056960}
+  m_Layer: 0
+  m_Name: UnitAreaStart
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1490056960
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1490056959}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -26.29, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 171131084}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1522981825
 GameObject:
   m_ObjectHideFlags: 0
@@ -10515,8 +10621,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 319337577}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 171131085}
+        m_TargetAssemblyTypeName: SceneChangeManager, Assembly-CSharp
         m_MethodName: GameStart
         m_Mode: 1
         m_Arguments:
@@ -10567,7 +10673,7 @@ Transform:
   - {fileID: 197116891}
   - {fileID: 2123177283}
   m_Father: {fileID: 1665774893}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1588897107
 MonoBehaviour:
@@ -10632,7 +10738,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665774893}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1601704997
 MonoBehaviour:
@@ -11025,6 +11131,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 319337576}
+  - {fileID: 171131084}
   - {fileID: 1737580340}
   - {fileID: 363056384}
   - {fileID: 226142873}
@@ -11119,8 +11226,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 319337577}
-        m_TargetAssemblyTypeName: 
+      - m_Target: {fileID: 171131085}
+        m_TargetAssemblyTypeName: SceneChangeManager, Assembly-CSharp
         m_MethodName: ToTitleScene
         m_Mode: 1
         m_Arguments:
@@ -11588,7 +11695,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1665774893}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1737580341
 MonoBehaviour:

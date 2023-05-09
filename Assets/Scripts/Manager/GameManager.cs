@@ -44,28 +44,6 @@ public class GameManager : MonoBehaviour
         if(overPanel) overPanel.SetActive(false);
         if(clearPanel) clearPanel.SetActive(false);
         if(pausePanel) pausePanel.SetActive(false);
-
-        // 타이틀 scene에서는 진입효과 넣지 않음
-        //if (SceneManager.GetActiveScene().name != "TitleScene")
-        StartCoroutine(SceneIn());
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    // title scene, play 버튼에서 호출
-    // play scene, panel의 재시작 버튼에서 호출
-    public void GameStart()
-    {        
-        StartCoroutine(SceneChange("PlayScene"));
-    }
-
-    public void ToTitleScene()
-    {
-        StartCoroutine(SceneChange("TitleScene"));
     }
 
     public void GamePause()
@@ -95,49 +73,6 @@ public class GameManager : MonoBehaviour
         // 모든 적군 유닛 사망
         KillAllChildUnit(enemyUnits);
     }    
-
-    // scene 전환 효과 중인가?
-    // blackOutImage의 fill 값을 조정하는 코루틴 중복 실행 방지
-    bool isChangeEffecting = false;
-
-    // scene 에서 나갈때 호출, 인수는 전환 대상 scene
-    IEnumerator SceneChange(string seceneName)
-    {
-        Time.timeScale = 1f; // GamePause가 먼저 호출된 경우 대비
-
-        if (isChangeEffecting) yield break;
-        isChangeEffecting = true;
-        blackOutImage.gameObject.SetActive(true);
-
-        float fill = 0;
-        while (fill < 1)
-        {
-            fill += Time.deltaTime;
-            blackOutImage.fillAmount = fill;
-            yield return new WaitForEndOfFrame();
-        }
-
-        isChangeEffecting = false;
-        SceneManager.LoadScene(seceneName);
-    }
-    // scene에 새롭게 진입했을 떄 호출
-    IEnumerator SceneIn()
-    {
-        if (isChangeEffecting) yield break;
-        isChangeEffecting = true;
-        blackOutImage.gameObject.SetActive(true);
-
-        float fill = 1;
-        while (fill > 0)
-        {
-            fill -= Time.deltaTime;
-            blackOutImage.fillAmount = fill;
-            yield return new WaitForEndOfFrame();
-        }
-
-        isChangeEffecting = false;
-        blackOutImage.gameObject.SetActive(false);
-    }
 
     // parent의 모든 자식의 Unit에 즉사에 해당하는 피해를 줌 
     public void KillAllChildUnit(Transform parent)
