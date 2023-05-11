@@ -34,13 +34,8 @@ public class ButtonContoller : MonoBehaviour
     #region 유니티 라이프 사이클
     // Start is called before the first frame update
     void Start()
-    {
-        //unit = unitPrefab.GetComponentInChildren<Unit>();
-        spwanable = unitPrefab.GetComponentInChildren<Spwanable>();
-        spwanManager = GameObject.Find("PlayerSpwanManager").GetComponent<SpwanManager>();
-        goldManager = GameObject.Find("PlayerGoldManager").GetComponent<GoldManager>();
-
-        InitButton();
+    {        
+        //InitButton();
     }
 
     // Update is called once per frame
@@ -54,15 +49,24 @@ public class ButtonContoller : MonoBehaviour
 
     #endregion
 
-    // button UI 초기화
-    void InitButton()
+    
+    public void InitButton(GameObject spwanUnit)
     {
-        // onClick에 리스너 등록
-        button.onClick.AddListener(TrySpwanUnit);
-        // 유닛 생산 비용 표기
-        priceText.text = spwanable.price.ToString();
-        // 시작 시 스폰 쿨타임 적용
-        StartCoroutine(SyncFilledImage());
+        //unit = unitPrefab.GetComponentInChildren<Unit>();
+        unitPrefab = spwanUnit;
+        spwanable = unitPrefab.GetComponentInChildren<Spwanable>();        
+        spwanManager = GameObject.Find("PlayerSpwanManager").GetComponent<SpwanManager>();
+        goldManager = GameObject.Find("PlayerGoldManager").GetComponent<GoldManager>();
+
+        // button UI 초기화
+        {
+            // onClick에 리스너 등록
+            button.onClick.AddListener(TrySpwanUnit);
+            // 유닛 생산 비용 표기
+            priceText.text = spwanable.price.ToString();
+            // 시작 시 스폰 쿨타임 적용
+            StartCoroutine(SyncFilledImage());
+        }        
     }
 
     // button의 onClick에서 호출됨
