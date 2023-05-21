@@ -51,7 +51,7 @@ public class Unit : MonoBehaviour
     bool isAttacking = false; // 공격 애니메이션 재생 중
     float hurtEndTime = 0f; // 피격 효과 적용이 끝나는 시간 (현재시간+지속기간)
     float hitEffectDuration = 0.1f;
-    int dir; // 바라보는 방향(오른쪽 => 1, 왼쪽 => -1)
+    int dir = 1; // 바라보는 방향(오른쪽 => 1, 왼쪽 => -1)
 
     [Header("피격 & 사망")]
     public Transform damageTextPonit; // 피해량 표기 위치(null인 경우 기본 위치는 hp bar 위쪽)
@@ -139,17 +139,15 @@ public class Unit : MonoBehaviour
     }
 
     void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-
-        // 공격 거리 표기
+    {        
         if (attackType != AttackType.none)
         {
+            Gizmos.color = Color.red;
             // 근접공격의 경우, 타겟 탐지거리는 공격거리보다 약간 더 짧음
-            float tragetSearchRange = attackRange;
-            if (attackType == AttackType.melee) tragetSearchRange -= 0.5f;
-            Gizmos.DrawLine(transform.position + Vector3.up, transform.position + Vector3.up + new Vector3(dir * tragetSearchRange, 0, 0));
-        }        
+            Vector3 start = transform.position + Vector3.up;
+            Vector3 end = start + Vector3.right * (dir * attackRange);
+            Gizmos.DrawLine(start, end);
+        }
     }
 
     #endregion
