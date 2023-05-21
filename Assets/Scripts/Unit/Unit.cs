@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public enum AttackType
 {
@@ -24,7 +25,7 @@ public class Unit : MonoBehaviour
     Animator anim;
     //Transform UI_object; // 적 캐릭터 반전 시 ui는 반전 대상에서 제외    
     Slider hpBar;
-    SpriteRenderer sprite;
+    List<SpriteRenderer> sprites;
     Collider2D coll;
     AnimationEventParser parser;
 
@@ -64,7 +65,7 @@ public class Unit : MonoBehaviour
         //Debug.Log("Unit start : " + transform.name);
 
         coll = GetComponentInChildren<Collider2D>();
-        sprite = GetComponentInChildren<SpriteRenderer>();        
+        sprites = GetComponentsInChildren<SpriteRenderer>().ToList();        
         hpBar = GetComponentInChildren<Slider>();
         anim = GetComponentInChildren<Animator>();
         if (unitType != UnitType.teamBase)
@@ -108,7 +109,7 @@ public class Unit : MonoBehaviour
         }        
 
         // 피격 효과를 검사하는 코루틴
-        //StartCoroutine(ShakeCheck(0.2f, 0.05f));
+        StartCoroutine(ShakeCheck(0.2f, 0.05f));
         StartCoroutine(BlinkCheck());
         StartCoroutine(HealthRegenCr());
     }
@@ -445,18 +446,38 @@ public class Unit : MonoBehaviour
     // 항시실행. 피격효과 시간이면 transform에 흔들림 적용
     IEnumerator ShakeCheck(float amount, float interval)
     {
-        Vector3 originPos = transform.localPosition; //스프라이트 본래 위치
-        
+        //Vector3 originPos = transform.localPosition; //스프라이트 본래 위치
+
+        //while (true)
+        //{
+        //    // shake time이면 흔들림 적용, 아니면 본래 위치로.
+        //    if (Time.time < hurtEndTime)
+        //        transform.localPosition = (Vector3)Random.insideUnitCircle * amount + originPos;           
+        //    else
+        //        transform.localPosition = originPos;
+
+        //    yield return new WaitForSeconds(interval);
+        //}        
+
+        Vector3 gap;
+
         while (true)
         {
             // shake time이면 흔들림 적용, 아니면 본래 위치로.
             if (Time.time < hurtEndTime)
-                transform.localPosition = (Vector3)Random.insideUnitCircle * amount + originPos;           
-            else
-                transform.localPosition = originPos;
+            {
+                gap = (Vector3)Random.insideUnitCircle * amount;
 
-            yield return new WaitForSeconds(interval);
-        }        
+                transform.localPosition += gap;
+                //foreach (SpriteRenderer sprite in sprites) sprite.transform.localPosition += gap;
+                                
+                yield return new WaitForSeconds(interval);
+
+                transform.localPosition -= gap;
+                //foreach (SpriteRenderer sprite in sprites) sprite.transform.localPosition -= gap;
+            }
+            else yield return new WaitForSeconds(interval);
+        }
     }
 
     // 항시 시행. 피격효과 시간이면 스프라이트에 붉은 색 표기
@@ -464,11 +485,14 @@ public class Unit : MonoBehaviour
     {        
         while (true)
         {
-            // shake time이면 흔들림 적용, 아니면 본래 위치로.
-            if (Time.time < hurtEndTime)
-                sprite.color = Color.red;             
-            else
-                sprite.color = Color.white;
+            foreach (SpriteRenderer sprite in sprites)
+            {
+                // shake time이면 깜빡임 적용, 아니면 본래 위치로.
+                if (Time.time < hurtEndTime)
+                    sprite.color = Color.red;
+                else
+                    sprite.color = Color.white;
+            }            
 
             yield return null;
         }
