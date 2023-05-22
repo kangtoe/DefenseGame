@@ -49,11 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 0}
   bulletPrefab: {fileID: 0}
-  unitType: 1
+  unitType: 0
   attackType: 0
-  price: 50
-  spwanCooltime: 1
   maxHp: 50
+  hpRegen: 0
   moveSpeed: 2
   attackRange: 3
   damage: 5
@@ -76,6 +75,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 50
   spwanCooltime: 1
+  buttonPrefab: {fileID: 4693560549235564677, guid: 9b61ae3e4aefe384ab0a40ac38098b60,
+    type: 3}
 --- !u!50 &4493370847803872004
 Rigidbody2D:
   serializedVersion: 4

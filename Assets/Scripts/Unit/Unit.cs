@@ -252,7 +252,7 @@ public class Unit : MonoBehaviour
 
         // 근접공격의 경우, 타겟 탐지거리는 공격거리보다 약간 더 짧음
         float tragetSearchRange = attackRange;
-        if (attackType == AttackType.melee) tragetSearchRange -= 1;
+        if (attackType == AttackType.melee) tragetSearchRange -= 0.5f;
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.up, transform.right, tragetSearchRange, targetLayer);
 

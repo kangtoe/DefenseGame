@@ -12,14 +12,14 @@ public class ButtonContoller : MonoBehaviour
     public Button button;    
     public Image fadeImage; // filled 영역 조절할 이미지
     public Text priceText; // 유닛의 생산 비용을 표기하는 텍스트
-    public Image unitIcon; // 생산할 유닛 미리보기 이미지
+    //public Image unitIcon; // 생산할 유닛 미리보기 이미지
 
     // 유닛 아이콘 관련 값
-    public Vector2 iconPos; // sprite x축, y축 조정값
-    public Vector2 iconSize; // sprite의 사이즈
+    //public Vector2 iconPos; // sprite x축, y축 조정값
+    //public Vector2 iconSize; // sprite의 사이즈
 
     // 스폰할 유닛 관련 변수
-    public GameObject unitPrefab; // 버튼에 스폰을 등록된 유닛 프리팹
+    GameObject unitPrefab; // 버튼에 스폰을 등록된 유닛 프리팹 (unit pallet에서 초기화)
     //Unit unit;
     Spwanable spwanable;
 
