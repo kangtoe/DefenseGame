@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8516844084566102959}
   - component: {fileID: 2059017831299133571}
   m_Layer: 0
-  m_Name: Hero_darkgirl01
+  m_Name: Darkgirl03
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -50,12 +50,12 @@ MonoBehaviour:
   firePoint: {fileID: 0}
   bulletPrefab: {fileID: 9120564941617895315, guid: 0050333dd248e34498eed20b08806eea,
     type: 3}
-  unitType: 97
+  unitType: 0
   attackType: 0
   maxHp: 500
-  hpRegen: 10
-  moveSpeed: 8
-  attackRange: 4.5
+  hpRegen: 0
+  moveSpeed: 5
+  attackRange: 4
   damage: 40
   impact: 0
   isEnemy: 0
@@ -75,7 +75,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   price: 500
-  spwanCooltime: 10
+  spwanCooltime: 1
+  buttonPrefab: {fileID: 607206265118367965, guid: 372be00319ea91b4b97ce06f8921c74f,
+    type: 3}
 --- !u!50 &2059017831299133571
 Rigidbody2D:
   serializedVersion: 4
@@ -200,7 +202,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6955305937539134791}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.6, z: 0}
+  m_LocalPosition: {x: 0, y: 3.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6955305936928854926}
@@ -246,7 +248,7 @@ SpriteRenderer:
   m_SortingLayerID: -1948541089
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 16ceaa26d771ee04f87bc67a0923c5a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3d925bd04bc07a447a177580c008b846, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -267,7 +269,7 @@ Animator:
   m_GameObject: {fileID: 6955305937539134791}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 051d0f3312705d74c933806753a05a2c, type: 2}
+  m_Controller: {fileID: 22100000, guid: 2acd70e2f0cf26848a26c9ddc6a280b7, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -289,7 +291,7 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -2}
+  m_Offset: {x: 0, y: -1.5}
   m_Size: {x: 1.5, y: 3}
   m_Direction: 0
 --- !u!114 &6147569805044361719
@@ -510,7 +512,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 4.5}
+  m_AnchoredPosition: {x: 0, y: 3.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &6955305938428616503
