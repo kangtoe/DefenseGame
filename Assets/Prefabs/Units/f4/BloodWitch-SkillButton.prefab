@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 3d925bd04bc07a447a177580c008b846,
+      objectReference: {fileID: 21300000, guid: 3bae3a458a703534f87ecc83fdeed114,
         type: 3}
     - target: {fileID: 3263223183593084907, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
@@ -26,17 +26,32 @@ PrefabInstance:
     - target: {fileID: 3263223183593084907, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -10.8
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 3263223183593084907, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 51.8
+      value: 8.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263223183787721846, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263223183787721846, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3263223183787721846, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3263223183787721850, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
       propertyPath: m_Name
-      value: SkillButton Variant
+      value: BloodWitch-SkillButton
       objectReference: {fileID: 0}
     - target: {fileID: 3263223183787721851, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
@@ -76,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 3263223183787721851, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 120
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 3263223183787721851, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
