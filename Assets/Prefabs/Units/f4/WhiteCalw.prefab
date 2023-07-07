@@ -55,7 +55,7 @@ MonoBehaviour:
   maxHp: 500
   hpRegen: 0
   moveSpeed: 5
-  attackRange: 4
+  attackRange: 2
   damage: 40
   impact: 0
   isEnemy: 0

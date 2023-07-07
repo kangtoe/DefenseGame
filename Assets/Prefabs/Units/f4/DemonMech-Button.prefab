@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: dbf421c88cdd8bb45b1ebdea928fd04d,
+      objectReference: {fileID: 21300000, guid: 5aec5e994a4937543b11f1767e84090f,
         type: 3}
     - target: {fileID: 3263223183593084907, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
@@ -26,12 +26,12 @@ PrefabInstance:
     - target: {fileID: 3263223183593084907, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -22.6
+      value: -34.8
       objectReference: {fileID: 0}
     - target: {fileID: 3263223183593084907, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 11.6
+      value: 16.2
       objectReference: {fileID: 0}
     - target: {fileID: 3263223183787721846, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: 3263223183787721850, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
       propertyPath: m_Name
-      value: DemonMech-SkillButton
+      value: DemonMech-Button
       objectReference: {fileID: 0}
     - target: {fileID: 3263223183787721851, guid: 8ce3edde7a73cab41af4bc5b8070b24e,
         type: 3}
