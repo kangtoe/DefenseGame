@@ -16,8 +16,14 @@ public class UnitPallet : MonoBehaviour
     Transform buttonParent;
 
     [SerializeField]
-    List<GameObject> spwanObjects;    
-    
+    GameObject emptyUnitButton;
+
+    [SerializeField]
+    List<GameObject> unitPrefabs;
+
+    [SerializeField]
+    List<GameObject> skillPrefabs;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +32,11 @@ public class UnitPallet : MonoBehaviour
     }
 
     void ClearButtons()
-    {        
+    {
+        //Debug.Log("ClearButton");
+
         foreach (Transform tf in buttonParent)
-        {
-            Debug.Log("ClearButton");
+        {            
             Destroy(tf.gameObject);
         }
         
@@ -37,13 +44,23 @@ public class UnitPallet : MonoBehaviour
 
     void CreateButtons()
     {
-        foreach (GameObject go in spwanObjects)
+        foreach (GameObject go in unitPrefabs)
         {
-            Debug.Log("add btn");
-            GameObject btnPrefab = go.GetComponent<Spwanable>().buttonPrefab;
-            GameObject btnClone = Instantiate(btnPrefab, buttonParent);
+            if (go == null)
+            {
+                Instantiate(emptyUnitButton, buttonParent);
+                continue;
+            }
+            else
+            {
+                Debug.Log("add btn : gbject = " + go.name);
+                GameObject btnPrefab = go.GetComponent<Spwanable>().buttonPrefab;
+                GameObject btnClone = Instantiate(btnPrefab, buttonParent);
 
-            btnClone.GetComponent<ButtonContoller>().InitButton(go);
+                btnClone.GetComponent<ButtonContoller>().InitButton(go);
+            }
+
+            
         }
     }
 }

@@ -16,6 +16,7 @@ public enum UnitType
 {
     undefined = 0,
     hero = 97,
+    empty = 98, // 비어 있음을 표기하기 위한 유닛 형식 (실제로 생성되지는 않음)
     teamBase = 99 // 팀 베이스. 파괴시 패배
 }
 
@@ -66,6 +67,13 @@ public class Unit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (unitType == UnitType.empty)
+        {
+            Debug.Log("이 유닛은 실제 생성되어선 안됨 : " + gameObject.name);
+            DestroyImmediate(gameObject);
+            return;
+        }
+
         //Debug.Log("Unit start : " + transform.name);
 
         coll = GetComponentInChildren<Collider2D>();
