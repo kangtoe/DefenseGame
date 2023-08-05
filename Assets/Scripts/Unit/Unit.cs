@@ -20,7 +20,7 @@ public enum UnitType
 }
 
 public class Unit : MonoBehaviour
-{    
+{
     // 컴포넌트
     Animator anim;
     //Transform UI_object; // 적 캐릭터 반전 시 ui는 반전 대상에서 제외    
@@ -43,6 +43,10 @@ public class Unit : MonoBehaviour
     public float attackRange; // 공격거리 == 적 탐색거리
     public float damage;
     public int impact; // 공격의 충격량    
+
+    [Header("유닛 설명")]
+    [TextArea(3,6)]
+    public string desc;
 
     [Header("타격 & 식별 정보")]
     public bool isEnemy = false; // 적(오른쪽에서 등장, 왼쪽으로 진행)인가?

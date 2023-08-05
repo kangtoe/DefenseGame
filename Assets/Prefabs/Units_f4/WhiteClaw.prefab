@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8516844084566102959}
   - component: {fileID: 2059017831299133571}
   m_Layer: 0
-  m_Name: DemonMech
+  m_Name: WhiteClaw
   m_TagString: Untagged
   m_Icon: {fileID: 4162164826716764455, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -55,9 +55,10 @@ MonoBehaviour:
   maxHp: 500
   hpRegen: 0
   moveSpeed: 5
-  attackRange: 4
+  attackRange: 2
   damage: 40
   impact: 0
+  desc: 
   isEnemy: 0
   damageTextPonit: {fileID: 0}
   deathEffectPrefab: {fileID: 9079989737093836079, guid: e8f7d88871a336c489386d0c751a50a9,
@@ -76,7 +77,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   price: 10
   spwanCooltime: 1
-  buttonPrefab: {fileID: 607206265118367965, guid: ac0fa8c40d49e0748b8e48721ac976aa,
+  buttonPrefab: {fileID: 607206265118367965, guid: 8b13713c9c423a746b8ff862b99b4d26,
     type: 3}
 --- !u!50 &2059017831299133571
 Rigidbody2D:
@@ -202,7 +203,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6955305937539134791}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.07, z: 0}
+  m_LocalPosition: {x: 0, y: 2.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6955305936928854926}
@@ -248,7 +249,7 @@ SpriteRenderer:
   m_SortingLayerID: -1948541089
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 55d20b5903915d94093db6ebfa5ad8ed, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3a7a1211e3797eb4abc5e4001848868e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -269,7 +270,7 @@ Animator:
   m_GameObject: {fileID: 6955305937539134791}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: f5d27e2b1e913ec40a58bec41123b0d5, type: 2}
+  m_Controller: {fileID: 22100000, guid: 79558bfafe8c15b44b61620695beff2d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -292,7 +293,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.75}
-  m_Size: {x: 1.9, y: 3}
+  m_Size: {x: 1.5, y: 3}
   m_Direction: 0
 --- !u!114 &6147569805044361719
 MonoBehaviour:

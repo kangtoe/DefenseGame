@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Arcane
+  m_Controller: {fileID: 9100000, guid: 9361d55cdf5703441a22dc42c73bbcbd, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: e90053bfc1288c6478e3b8cb295a7258, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c990266adf869b4498893302028b2e7b, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: e7d5f0ee0b8fe494585486d5cc08c166, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: b768214fb52337b4988a309a629fb78f, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 1187afe4bce52764ab52984eed594ffa, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 2a3083e0e189aaf49bfe406fff4f025f, type: 2}
