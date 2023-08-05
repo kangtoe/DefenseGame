@@ -3,13 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class ButtonInfo
-{   
-    //public ButtonContoller button;
-    public GameObject spwanObject;
-}
-
 public class UnitPallet : MonoBehaviour
 {
     [SerializeField]
@@ -27,6 +20,11 @@ public class UnitPallet : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Init();
+    }
+
+    public void Init()
+    {
         ClearButtons();
         CreateButtons();
     }
@@ -42,6 +40,7 @@ public class UnitPallet : MonoBehaviour
         
     }
 
+    // 리스트 정보대로 버튼 생성
     void CreateButtons()
     {
         foreach (GameObject go in unitPrefabs)

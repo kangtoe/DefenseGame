@@ -4,8 +4,25 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+[System.Serializable]
+public enum Scene
+{ 
+    Undefined = 0,
+    Title,
+    Play,
+    Shop
+}
+
 public class SceneChangeManager : MonoBehaviour
 {
+    [Header("Scene 이름 상수")]
+    [SerializeField]
+    string TITLE_SCENE_NAME = "TitleScene";
+    [SerializeField]
+    string PLAY_SCENE_NAME = "PlayScene";
+    [SerializeField]
+    string SHOP_SCENE_NAME = "UnitScene";
+
     public static SceneChangeManager instance
     {
         get
@@ -23,6 +40,9 @@ public class SceneChangeManager : MonoBehaviour
     }
     private static SceneChangeManager m_instance; // 싱글톤이 할당될 static 변수
 
+    [Header("현재 Scene")]
+    public Scene currentScene;
+
     public Image blackOutImage; // scene 전환 시 fill 값을 조절하여 효과를 줌
 
     // scene 전환 효과 중인가?
@@ -35,33 +55,53 @@ public class SceneChangeManager : MonoBehaviour
         // 타이틀 scene에서는 진입효과 넣지 않음
         //if (SceneManager.GetActiveScene().name != "TitleScene")
         StartCoroutine(SceneIn());
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        // 현재 씬 알아오기
+        string name = SceneManager.GetActiveScene().name;
+        currentScene = SceneStrToEnum(name);
     }
 
     // title scene, play 버튼에서 호출
     // play scene, panel의 재시작 버튼에서 호출
     public void GameStart()
     {
-        StartCoroutine(SceneChange("PlayScene"));
+        StartCoroutine(SceneChangeCr(PLAY_SCENE_NAME));
     }
 
     public void ToTitleScene()
     {
-        StartCoroutine(SceneChange("TitleScene"));
+        StartCoroutine(SceneChangeCr(TITLE_SCENE_NAME));
     }
 
     public void ToUnitShop()
     {
-        StartCoroutine(SceneChange("UnitScene"));
+        StartCoroutine(SceneChangeCr(SHOP_SCENE_NAME));
     }
 
+    #region Scene Sting <-> Enum 변환
+    string SceneEnumToStr(Scene scene)
+    {
+        if (scene == Scene.Title) return TITLE_SCENE_NAME;
+        if (scene == Scene.Shop) return SHOP_SCENE_NAME;
+        if (scene == Scene.Play) return PLAY_SCENE_NAME;        
+
+        Debug.Log("No Enum Type Found: " + scene);
+        return null;
+    }
+    Scene SceneStrToEnum(string str)
+    {
+        if (str == TITLE_SCENE_NAME) return Scene.Title;
+        if (str == SHOP_SCENE_NAME) return Scene.Shop;
+        if (str == PLAY_SCENE_NAME) return Scene.Play;        
+
+        Debug.Log("No Available Str: " + str);
+        return Scene.Undefined;
+    }
+
+    #endregion
+
     // scene 에서 나갈때 호출, 인수는 전환 대상 scene
-    IEnumerator SceneChange(string seceneName)
+    IEnumerator SceneChangeCr(string seceneName)
     {
         Time.timeScale = 1f; // GamePause가 먼저 호출된 경우 대비
 
