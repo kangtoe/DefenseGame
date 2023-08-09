@@ -48,14 +48,13 @@ public class ButtonContoller : MonoBehaviour
     }
 
     #endregion
-
     
     public void InitButton(GameObject spwanUnit)
     {
         //unit = unitPrefab.GetComponentInChildren<Unit>();
         unitPrefab = spwanUnit;
         spwanable = unitPrefab.GetComponentInChildren<Spwanable>();        
-        spwanManager = GameObject.Find("PlayerSpwanManager").GetComponent<SpwanManager>();
+        spwanManager = GameObject.Find("PlayerSpwanManager")?.GetComponent<SpwanManager>();
         goldManager = GameObject.Find("PlayerGoldManager").GetComponent<GoldManager>();
 
         // button UI 초기화
@@ -72,6 +71,8 @@ public class ButtonContoller : MonoBehaviour
     // button의 onClick에서 호출됨
     void TrySpwanUnit()
     {
+        Debug.Log("TrySpwanUnit");
+
         // 아직 스폰 딜레이 시간 중
         if (isSpwanCooltime) return;
 

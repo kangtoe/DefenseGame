@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,7 +27,7 @@ public class GoldManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.instance.isPlaying) return;
+        if (GameManager.instance && !GameManager.instance.isPlaying) return;
 
         // 초당 자동으로 얻게될 골드량의 60분의 1만큼 획득
         EarnGold(autoGetGold * Time.deltaTime);
