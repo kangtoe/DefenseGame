@@ -633,7 +633,7 @@ GameObject:
   - component: {fileID: 363056384}
   - component: {fileID: 363056385}
   m_Layer: 0
-  m_Name: EnemyGoldManager
+  m_Name: EnemyResource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -665,11 +665,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39a317ef18d1b046abab0630446c08e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiSync: 0
-  goldText: {fileID: 0}
-  currentGold: 0
-  maxGold: 99999
-  autoGetGold: 100
+  currentMana: 0
+  maxMana: 99999
+  autoManaPerSec: 1000
 --- !u!1 &385186915
 GameObject:
   m_ObjectHideFlags: 0
@@ -2435,7 +2433,7 @@ GameObject:
   - component: {fileID: 795024268}
   - component: {fileID: 795024269}
   m_Layer: 0
-  m_Name: EnemySpwanManager
+  m_Name: EnemySpwaner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2466,13 +2464,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 795024266}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c94c7b5b81332543a713880ca907baf, type: 3}
+  m_Script: {fileID: 11500000, guid: f62bae96bfd4192499222c2881f5c596, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitParent: {fileID: 1199085963}
   spwanPointStart: {fileID: 406562602}
   spwanPointEnd: {fileID: 739812953}
-  isEnemySpwaner: 1
 --- !u!114 &795024269
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3268,9 +3265,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1057517341}
-  - component: {fileID: 1057517342}
+  - component: {fileID: 1057517343}
   m_Layer: 0
-  m_Name: PlayerSpwanManager
+  m_Name: PlayerSpwaner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3292,7 +3289,7 @@ Transform:
   m_Father: {fileID: 1665774893}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1057517342
+--- !u!114 &1057517343
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3301,13 +3298,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1057517340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c94c7b5b81332543a713880ca907baf, type: 3}
+  m_Script: {fileID: 11500000, guid: e4e748c66a063c349bbcf2167d3c937b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitParent: {fileID: 1975034060}
   spwanPointStart: {fileID: 1238090977}
   spwanPointEnd: {fileID: 541172509}
-  isEnemySpwaner: 0
 --- !u!1 &1060125777
 GameObject:
   m_ObjectHideFlags: 0
@@ -9976,9 +9972,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1737580340}
-  - component: {fileID: 1737580341}
+  - component: {fileID: 1737580342}
   m_Layer: 0
-  m_Name: PlayerGoldManager
+  m_Name: PlayerResource
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9998,7 +9994,7 @@ Transform:
   m_Father: {fileID: 1665774893}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1737580341
+--- !u!114 &1737580342
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -10007,14 +10003,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1737580339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f39a317ef18d1b046abab0630446c08e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8edfe306a411c314895bceb69fa5f413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiSync: 1
-  goldText: {fileID: 2016704104}
-  currentGold: 0
-  maxGold: 99999
-  autoGetGold: 50
+  currentMana: 0
+  maxMana: 99999
+  autoManaPerSec: 10
+  text: {fileID: 2057206545}
 --- !u!1 &1779080615
 GameObject:
   m_ObjectHideFlags: 0
@@ -11028,7 +11023,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 1000 / 1000
+  m_Text: 00,000
 --- !u!222 &2057206546
 CanvasRenderer:
   m_ObjectHideFlags: 0

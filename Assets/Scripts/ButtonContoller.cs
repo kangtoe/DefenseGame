@@ -28,8 +28,8 @@ public class ButtonContoller : MonoBehaviour
     bool isSpwanCooltime = false; // 스폰 쿨타임 중인가? (스폰 불가 시간인가?)
 
     // 플레이어 관리자
-    SpwanManager spwanManager;
-    GoldManager goldManager;
+    UnitSpwaner spwanManager;
+    ManaResource goldManager;
 
     #region 유니티 라이프 사이클
     // Start is called before the first frame update
@@ -51,11 +51,13 @@ public class ButtonContoller : MonoBehaviour
     
     public void InitButton(GameObject spwanUnit)
     {
+        Debug.Log("InitButton");
+
         //unit = unitPrefab.GetComponentInChildren<Unit>();
         unitPrefab = spwanUnit;
         spwanable = unitPrefab.GetComponentInChildren<Spwanable>();        
-        spwanManager = GameObject.Find("PlayerSpwanManager")?.GetComponent<SpwanManager>();
-        goldManager = GameObject.Find("PlayerGoldManager").GetComponent<GoldManager>();
+        spwanManager = PlayerSpwaner.Instance;
+        goldManager = PlayerResourceManager.Instance;
 
         // button UI 초기화
         {

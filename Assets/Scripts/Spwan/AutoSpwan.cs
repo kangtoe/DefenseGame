@@ -7,8 +7,8 @@ using UnityEngine;
 public class AutoSpwan : MonoBehaviour
 {
     // 매니저
-    public SpwanManager spwaner;
-    public GoldManager goldManager;
+    public UnitSpwaner spwaner;
+    public ManaResource goldManager;
 
     // 스폰 관련
     public bool canSpwan = true;
@@ -46,8 +46,10 @@ public class AutoSpwan : MonoBehaviour
             if (r < spwanSkipPrecent) continue;
 
             SetSpwanableUnits(); // 스폰가능 유닛 찾기
+            if (spwanableUnits.Count < 1) continue;
+
             //스폰 가능한 유닛 중 랜덤하게 스폰
-            int i = Random.Range(0, spwanableUnits.Count);
+            int i = Random.Range(0, spwanableUnits.Count);            
             TrySpwanUnit(spwanableUnits[i]);
         }        
     }
@@ -77,7 +79,7 @@ public class AutoSpwan : MonoBehaviour
         {
             Spwanable unit = spwanUnits[i].GetComponentInChildren<Spwanable>();
             // 현재 골드보다 price가 적은 유닛만 리스트에 등록
-            float currentGold = goldManager.GetCurrentGold();
+            float currentGold = goldManager.CurrentMana;
             
             if (unit.price < currentGold)
             {

@@ -2,45 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpwanManager : MonoBehaviour
+public class UnitSpwaner : MonoBehaviour
 {
-    // 외부에서 싱글톤 오브젝트를 가져올때 사용할 프로퍼티
-    public static SpwanManager Instance
-    {
-        get
-        {
-            // 만약 싱글톤 변수에 아직 오브젝트가 할당되지 않았다면
-            if (instance == null)
-            {
-                // 씬에서 GameManager 오브젝트를 찾아 할당
-                instance = FindObjectOfType<SpwanManager>();
-            }
-
-            // 싱글톤 오브젝트를 반환
-            return instance;
-        }
-    }
-    private static SpwanManager instance; // 싱글톤이 할당될 static 변수    
-
     public Transform unitParent;
 
     public Transform spwanPointStart;
     public Transform spwanPointEnd;
-    public bool isEnemySpwaner = false;
+    //public bool isEnemySpwaner = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void SpwanUnit(GameObject unit)
+    virtual public Unit SpwanUnit(GameObject unit)
     {
         //Debug.Log("spwan unit:" + unit.name);
 
@@ -51,8 +21,9 @@ public class SpwanManager : MonoBehaviour
         tf.SetParent(unitParent);
 
         Unit _unit = tf.GetComponentInChildren<Unit>();
+        return _unit;
         // 적일 경우 추가적 처리
-        if (isEnemySpwaner) _unit.SetEnemy();
+        //if (isEnemySpwaner) _unit.SetEnemy();
     }
 
     // spwanPointStart와 spwanPointEnd 사이의 무작위 좌표를 구한다.
