@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1141,6 +1141,7 @@ MonoBehaviour:
   attackRange: 0
   damage: 0
   impact: 0
+  desc: 
   isEnemy: 1
   damageTextPonit: {fileID: 0}
   deathEffectPrefab: {fileID: 9079989737093836079, guid: e8f7d88871a336c489386d0c751a50a9,
@@ -2176,13 +2177,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1057517340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c94c7b5b81332543a713880ca907baf, type: 3}
+  m_Script: {fileID: 11500000, guid: e4e748c66a063c349bbcf2167d3c937b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   unitParent: {fileID: 1975034060}
   spwanPointStart: {fileID: 1238090977}
   spwanPointEnd: {fileID: 541172509}
-  isEnemySpwaner: 0
 --- !u!114 &1057517343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6926,6 +6926,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71df7fb29241e7b4b800ad7ce3314505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TITLE_SCENE_NAME: TitleScene
+  PLAY_SCENE_NAME: PlayScene
+  SHOP_SCENE_NAME: UnitScene
+  currentScene: 0
   blackOutImage: {fileID: 1060125779}
 --- !u!1 &1601704995
 GameObject:
@@ -7417,11 +7421,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f39a317ef18d1b046abab0630446c08e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiSync: 0
-  goldText: {fileID: 0}
-  currentGold: 0
-  maxGold: 99999
-  autoGetGold: 100
+  currentMana: 0
+  maxMana: 99999
+  autoManaPerSec: 200
 --- !u!1 &1754182268
 GameObject:
   m_ObjectHideFlags: 0
