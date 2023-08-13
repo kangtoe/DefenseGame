@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitPallet : MonoBehaviour
+public class UnitSpwanPallet : MonoBehaviour
 {
     [SerializeField]
     Transform buttonParent;
@@ -17,7 +17,10 @@ public class UnitPallet : MonoBehaviour
     [SerializeField]
     List<GameObject> skillPrefabs;
 
+    [SerializeField]
     int unitCount = 6; // 유닛 등록 제한
+    [SerializeField]
+    int skillCount = 2; // 유닛 등록 제한
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +81,7 @@ public class UnitPallet : MonoBehaviour
         // 유닛 최대 등록 수 초과
         if (unitPrefabs.Count > unitCount)
         {
+            // TODO : 게임 내 text 띄우기
             Debug.Log("유닛 최대 등록 수 초과");
             return;
         }

@@ -27,10 +27,6 @@ public class TextMaker : MonoBehaviour
     public Transform worldCanvas;
     public Transform camearaCanvas;
 
-    void Start()
-    {
-    }
-
     // 월드좌표 기준 텍스트 생성 (카메라 위치와 독립적)
     public void CreateWolrdText(Vector3 pos, string _text, Color color)
     {
@@ -49,5 +45,10 @@ public class TextMaker : MonoBehaviour
         txt.fontSize = fontSize;
         txt.rectTransform.SetParent(camearaCanvas);
         txt.text = _text;
+    }
+
+    public void DebugFunc()
+    {
+        TextMaker.instance.CreateCameraText(Vector3.zero, "Not Enough Gold!", 60);
     }
 }

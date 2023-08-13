@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7145205732475850465
 RectTransform:
   m_ObjectHideFlags: 0
@@ -52,7 +52,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 346035838618270368}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 3263223183663395844}
   - component: {fileID: 3263223183663395847}
   m_Layer: 5
-  m_Name: Text-UnitPrice
+  m_Name: Text-UnitCost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -413,9 +413,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8dc9f616632c4642af2aed16e1fb530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonType: 0
   button: {fileID: 3263223183787721849}
   fadeImage: {fileID: 3263223184760178828}
-  priceText: {fileID: 3263223183663395847}
+  lockImage: {fileID: 6566493140333202140}
+  OutlineImage: {fileID: 6047060728444062955}
+  costText: {fileID: 3263223183663395847}
+  equiptText: {fileID: 8558080085170462814}
+  levelText: {fileID: 8024358430926006489}
 --- !u!1 &3263223184662601896
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,9 +799,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8dc9f616632c4642af2aed16e1fb530, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buttonType: 0
   button: {fileID: 4924716589190134071}
   fadeImage: {fileID: 0}
-  priceText: {fileID: 0}
+  lockImage: {fileID: 0}
+  OutlineImage: {fileID: 0}
+  costText: {fileID: 0}
+  equiptText: {fileID: 0}
+  levelText: {fileID: 0}
 --- !u!1 &9099498903121217294
 GameObject:
   m_ObjectHideFlags: 0

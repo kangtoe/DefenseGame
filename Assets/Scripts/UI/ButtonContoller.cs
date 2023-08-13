@@ -3,25 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum ButtonType
+{ 
+    Undefinded = 0,
+    Spwan,
+    Upgrade,
+    Empty = 98,
+}
+
 // 버튼 초기화
 // 버튼에 생산 등록한 유닛의 생산 시간 조절& ui반영
 // 버튼 fade 이미지(delay time ui)의 filled 영역 조절
 public class ButtonContoller : MonoBehaviour
 {
-    // 버튼 ui
-    public Button button;    
-    public Image fadeImage; // filled 영역 조절할 이미지
-    public Text priceText; // 유닛의 생산 비용을 표기하는 텍스트
-    //public Image unitIcon; // 생산할 유닛 미리보기 이미지
-
+    // 생산할 유닛 미리보기 이미지
+    //public Image unitIcon; 
     // 유닛 아이콘 관련 값
     //public Vector2 iconPos; // sprite x축, y축 조정값
     //public Vector2 iconSize; // sprite의 사이즈
 
+    // 버튼 타입 : 클릭 시 동작 정의
+    public ButtonType buttonType;
+
+    // 버튼 ui
+    public Button button;    
+    public Image fadeImage; // filled 영역 조절할 이미지
+    public Image lockImage; // 유닛 사용 잠금 이미지
+    public Image OutlineImage; // filled 영역 조절할 이미지
+    public Text costText; // 유닛의 생산 비용을 표기하는 텍스트
+    public Text equiptText; // 유닛의 사용 여부를 표기하는 텍스트
+    public Text levelText; // 유닛 강화 단계 표시
+
+    bool isEquipted = false;
+
+    public GameObject UnitPrefab => unitPrefab;
     // 스폰할 유닛 관련 변수
-    GameObject unitPrefab; // 버튼에 스폰을 등록된 유닛 프리팹 (unit pallet에서 초기화)
-    //Unit unit;
+    GameObject unitPrefab; // 버튼에 스폰을 등록된 유닛 프리팹 (unit pallet에서 초기화)    
     Spwanable spwanable;
+    Upgradable upgradable;
+    //Unit unit;
 
     // 스폰 관련 변수
     float lastSpwanTime = 0f; // 마지막으로 유닛을 스폰한 시간
@@ -53,22 +73,63 @@ public class ButtonContoller : MonoBehaviour
     {
         Debug.Log("InitButton");
 
-        //unit = unitPrefab.GetComponentInChildren<Unit>();
+        //unit = unitPrefab.GetComponent<Unit>();
         unitPrefab = spwanUnit;
-        spwanable = unitPrefab.GetComponentInChildren<Spwanable>();        
+        spwanable = unitPrefab.GetComponent<Spwanable>();
+        upgradable = unitPrefab.GetComponent<Upgradable>();
         spwanManager = PlayerSpwaner.Instance;
         goldManager = PlayerResourceManager.Instance;
 
-        // button UI 초기화
+        // 유닛 생산 비용 표기
+        costText.text = spwanable.price.ToString();
+        levelText.text = upgradable.CurrentLevelStr;
+        // 사용 중 텍스트 활성화 여부
+        equiptText.enabled = isEquipted;
+        
+
+        switch (buttonType)
         {
-            // onClick에 리스너 등록
-            button.onClick.AddListener(TrySpwanUnit);
-            // 유닛 생산 비용 표기
-            priceText.text = spwanable.price.ToString();
-            // 시작 시 스폰 쿨타임 적용
-            StartCoroutine(SyncFilledImage());
-        }        
+            case ButtonType.Spwan:
+                // onClick에 리스너 등록
+                button.onClick.AddListener(TrySpwanUnit);                
+                // 시작 시 스폰 쿨타임 적용
+                StartCoroutine(SyncFilledImage());
+                break;
+
+            case ButtonType.Upgrade:
+                button.onClick.AddListener(delegate {
+                    // 현재 관리 중인 오브젝트로 지정                    
+                    ArmoryManager.Instance.SetSelectedUnit(this);   
+                });                
+                
+                break;
+
+
+            default:
+                Debug.Log("유효하지 않은 버튼 타입 : " + buttonType);
+                break;            
+        }
+  
     }
+
+    // 사용 여부 반전
+    public void ToggleEquipted()
+    {
+        isEquipted =! isEquipted;
+
+        equiptText.enabled = isEquipted;
+
+        if (isEquipted)
+        { 
+            // 스폰 리스트에 추가
+        }
+        if (!isEquipted)
+        { 
+            // 스폰 리스트에서 제거
+        }
+    }
+
+    #region 스폰버튼 처리
 
     // button의 onClick에서 호출됨
     void TrySpwanUnit()
@@ -88,7 +149,7 @@ public class ButtonContoller : MonoBehaviour
         // 스폰 성공 처리
         spwanManager.SpwanUnit(unitPrefab);
         lastSpwanTime = Time.time;
-        isSpwanCooltime = true;        
+        isSpwanCooltime = true;
         StartCoroutine(SyncFilledImage());
     }
 
@@ -119,4 +180,20 @@ public class ButtonContoller : MonoBehaviour
             }
         }
     }
+
+    #endregion
+
+    #region 상점버튼 처리
+
+    public void OnSelected()
+    {
+        OutlineImage.enabled = true;
+    }
+
+    public void OnDeselected()
+    {
+        OutlineImage.enabled = false;
+    }
+
+    #endregion
 }

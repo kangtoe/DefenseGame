@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6955305936928854926}
   - component: {fileID: 8300340929818225637}
   - component: {fileID: 8516844084566102959}
+  - component: {fileID: -5398095850542027107}
   - component: {fileID: 2059017831299133571}
   m_Layer: 0
   m_Name: WhiteClaw
@@ -75,10 +76,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33957a17bb0db9549b0264d539886b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 2
   price: 10
   spwanCooltime: 1
   buttonPrefab: {fileID: 607206265118367965, guid: 8b13713c9c423a746b8ff862b99b4d26,
     type: 3}
+--- !u!114 &-5398095850542027107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6955305936928854927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1759ef11890cc48bc3c07139b77214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultCost: 100
+  currentLevel: 0
 --- !u!50 &2059017831299133571
 Rigidbody2D:
   serializedVersion: 4
