@@ -1016,7 +1016,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 350665957}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1095041808}
+        m_TargetAssemblyTypeName: ArmoryManager, Assembly-CSharp
+        m_MethodName: OnEquiptButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &350665957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1547,6 +1559,101 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 613197868}
   m_CullTransparentMesh: 1
+--- !u!1001 &657187882
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1665774893}
+    m_Modifications:
+    - target: {fileID: 5291534753545752814, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592697, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: soulText
+      value: 
+      objectReference: {fileID: 2016704104}
+    - target: {fileID: 5291534754039592697, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: manaResource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534754039592700, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: m_Name
+      value: PlayerResource
+      objectReference: {fileID: 0}
+    - target: {fileID: 5291534755226400835, guid: aa3ac5c66e2db154083e7875fc03d24b,
+        type: 3}
+      propertyPath: currentResource
+      value: 1000
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa3ac5c66e2db154083e7875fc03d24b, type: 3}
+--- !u!4 &657187883 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5291534754039592699, guid: aa3ac5c66e2db154083e7875fc03d24b,
+    type: 3}
+  m_PrefabInstance: {fileID: 657187882}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &699939966
 GameObject:
   m_ObjectHideFlags: 0
@@ -2627,18 +2734,22 @@ MonoBehaviour:
   emptySkillButton: {fileID: 5331276842357991066, guid: c0b97aa608bc1ac46ab484ca5af0a6af,
     type: 3}
   unitPrefabs:
-  - {fileID: 6955305936928854927, guid: cd863dc762fcab34aac7011f498a47e5, type: 3}
-  - {fileID: 6955305936928854927, guid: 078fd698c0142a94ba193e185099cd79, type: 3}
+  - {fileID: 6955305936928854927, guid: 52947662f70b33549ba1aa228aace6dd, type: 3}
+  - {fileID: 6955305936928854927, guid: 2d684df3dd046ae419b2e690841dbcee, type: 3}
   - {fileID: 6955305936928854927, guid: e5c5382ec1b492d478875dd843f7823e, type: 3}
   - {fileID: 6955305936928854927, guid: 41e8da1bb8990ba40b222b3512fdef25, type: 3}
   - {fileID: 6955305936928854927, guid: decba65c33295904b8d7b0c02aece481, type: 3}
-  - {fileID: 0}
+  - {fileID: 6955305936928854927, guid: f1c329bb411602949ac3e013f9dcc9de, type: 3}
   - {fileID: 6955305936928854927, guid: a1e77c8660d81e245a7704c19fd65b32, type: 3}
   - {fileID: 6955305936928854927, guid: e14870a41cdd1de4d9cc8fbf7a2004be, type: 3}
   - {fileID: 6955305936928854927, guid: fea05f6a714073e439ab312c7788b33f, type: 3}
-  - {fileID: 6955305936928854927, guid: fea05f6a714073e439ab312c7788b33f, type: 3}
-  - {fileID: 6955305936928854927, guid: fea05f6a714073e439ab312c7788b33f, type: 3}
-  - {fileID: 6955305936928854927, guid: fea05f6a714073e439ab312c7788b33f, type: 3}
+  - {fileID: 6955305936928854927, guid: 0f058ba257263fd45ae10f0995f4021e, type: 3}
+  - {fileID: 6955305936928854927, guid: 078fd698c0142a94ba193e185099cd79, type: 3}
+  - {fileID: 6955305936928854927, guid: cd863dc762fcab34aac7011f498a47e5, type: 3}
+  - {fileID: 6955305936928854927, guid: 240188e52f7664f45acb4f489d4e975a, type: 3}
+  - {fileID: 6955305936928854927, guid: e3a3e7e27b4059e41a6bac12daa9a28e, type: 3}
+  - {fileID: 6955305936928854927, guid: a5241a05d9f81cb4b890b92a0e0cd7ed, type: 3}
+  - {fileID: 6955305936928854927, guid: 6d93009471646444f8602d585ee0c347, type: 3}
   skillPrefabs:
   - {fileID: 0}
   - {fileID: 0}
@@ -2868,7 +2979,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1037242271}
   m_Layer: 5
-  m_Name: GoldUI
+  m_Name: SoulUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2892,7 +3003,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 597.7, y: -23}
+  m_AnchoredPosition: {x: 603.5, y: -23}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1060125777
@@ -3016,6 +3127,8 @@ MonoBehaviour:
   unitName: {fileID: 982648377}
   unitDesc: {fileID: 1874522874}
   unitUpgradeGold: {fileID: 1191945488}
+  unitUpgradeButtonText: {fileID: 506092344}
+  unitEquiptButtonText: {fileID: 1613831202}
   selectedButton: {fileID: 0}
 --- !u!1001 &1099653173
 PrefabInstance:
@@ -3317,7 +3430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.6039216, g: 0.43921572, b: 0.8000001, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3331,13 +3444,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 40
-    m_Alignment: 6
+    m_Alignment: 8
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0 gold
+  m_Text: 0 soul
 --- !u!222 &1191945489
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5323,7 +5436,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b9b6d1769f5cc774594729ad016eb966, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 06121c73941905f4c96a07e46ccef8bc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9763,7 +9876,7 @@ Transform:
   - {fileID: 1398874545}
   - {fileID: 924084628}
   - {fileID: 171131084}
-  - {fileID: 1737580340}
+  - {fileID: 657187883}
   - {fileID: 1601704996}
   - {fileID: 1225679159}
   - {fileID: 1095041807}
@@ -9977,52 +10090,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1737580339
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1737580340}
-  - component: {fileID: 1737580341}
-  m_Layer: 0
-  m_Name: PlayerGoldManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1737580340
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1737580339}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1665774893}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1737580341
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1737580339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f39a317ef18d1b046abab0630446c08e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentMana: 0
-  maxMana: 99999
-  autoManaPerSec: 10
 --- !u!1 &1746822443
 GameObject:
   m_ObjectHideFlags: 0
@@ -10106,9 +10173,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1601704997}
-        m_TargetAssemblyTypeName: TextMaker, Assembly-CSharp
-        m_MethodName: DebugFunc
+      - m_Target: {fileID: 1095041808}
+        m_TargetAssemblyTypeName: ArmoryManager, Assembly-CSharp
+        m_MethodName: OnUpgradeButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10168,7 +10235,7 @@ GameObject:
   - component: {fileID: 1874522875}
   - component: {fileID: 1874522874}
   m_Layer: 5
-  m_Name: Text (1)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

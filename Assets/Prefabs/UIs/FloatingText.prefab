@@ -93,5 +93,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selfText: {fileID: 6190418980072050764}
-  moveSpeed: 1
-  fadeSpeed: 2
+  moveSpeed: 0.5
+  fadeSpeed: 1

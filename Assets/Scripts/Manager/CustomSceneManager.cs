@@ -10,7 +10,9 @@ public enum Scene
     Undefined = 0,
     Title,
     Play,
-    Shop
+    Shop,
+    Armory, // Unit&Skill Upgrade
+    Base, // Hero&Base Upgrade
 }
 
 public class CustomSceneManager : MonoBehaviour

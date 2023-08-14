@@ -34,7 +34,10 @@ public class ButtonContoller : MonoBehaviour
     public Text equiptText; // 유닛의 사용 여부를 표기하는 텍스트
     public Text levelText; // 유닛 강화 단계 표시
 
+    public bool IsEquipted => isEquipted;
     bool isEquipted = false;
+    
+    public bool IsUnlocked => upgradable && upgradable.CurrentLevel > 0;
 
     public GameObject UnitPrefab => unitPrefab;
     // 스폰할 유닛 관련 변수
@@ -49,7 +52,7 @@ public class ButtonContoller : MonoBehaviour
 
     // 플레이어 관리자
     UnitSpwaner spwanManager;
-    ManaResource goldManager;
+    ResourceControl manaManager;
 
     #region 유니티 라이프 사이클
     // Start is called before the first frame update
@@ -78,14 +81,21 @@ public class ButtonContoller : MonoBehaviour
         spwanable = unitPrefab.GetComponent<Spwanable>();
         upgradable = unitPrefab.GetComponent<Upgradable>();
         spwanManager = PlayerSpwaner.Instance;
-        goldManager = PlayerResourceManager.Instance;
+        manaManager = PlayerResourceManager.Instance.ManaResource;
 
-        // 유닛 생산 비용 표기
+        // 유닛 레벨 표기
+        levelText.text = "lv." + upgradable.CurrentLevel;
+        //levelText.enabled = IsUnlocked;
+        
+        // 유닛 생산 비용 표기        
         costText.text = spwanable.price.ToString();
-        levelText.text = upgradable.CurrentLevelStr;
+        costText.enabled = IsUnlocked;
+
         // 사용 중 텍스트 활성화 여부
         equiptText.enabled = isEquipted;
         
+        // 잠금 이미지 활성화 여부
+        lockImage.enabled = !IsUnlocked;                                
 
         switch (buttonType)
         {
@@ -140,9 +150,9 @@ public class ButtonContoller : MonoBehaviour
         if (isSpwanCooltime) return;
 
         // 게임 메니저에서 돈이 부족해서 스폰에 실패한 경우
-        if (!goldManager.TrySpendGold(spwanable.price))
+        if (!manaManager.TrySpendResource(spwanable.price))
         {
-            TextMaker.instance.CreateCameraText(Vector3.zero, "Not Enough Gold!", 60);
+            TextMaker.instance.CreateCameraText("Not Enough Mana!");
             return;
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TextMaker : MonoBehaviour
-{
+{    
     // 외부에서 싱글톤 오브젝트를 가져올때 사용할 프로퍼티
     public static TextMaker instance
     {
@@ -25,7 +25,7 @@ public class TextMaker : MonoBehaviour
 
     public GameObject textUI;   
     public Transform worldCanvas;
-    public Transform camearaCanvas;
+    public Transform camearaCanvas;    
 
     // 월드좌표 기준 텍스트 생성 (카메라 위치와 독립적)
     public void CreateWolrdText(Vector3 pos, string _text, Color color)
@@ -38,9 +38,10 @@ public class TextMaker : MonoBehaviour
     }
 
     // 카메라 좌표 기준 텍스트 생성 (카메라 위치에 종속적)
-    public void CreateCameraText(Vector3 pos, string _text, int fontSize)
+    public void CreateCameraText(string _text, int fontSize = 60, Vector3? pos = null)
     {
-        Vector3 vec = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.5f)) + pos;
+        if (pos == null) pos = Vector3.zero;
+        Vector3 vec = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.5f)) + pos.Value;
         Text txt = Instantiate(textUI, vec, Quaternion.identity, camearaCanvas).GetComponent<Text>();
         txt.fontSize = fontSize;
         txt.rectTransform.SetParent(camearaCanvas);
@@ -49,6 +50,6 @@ public class TextMaker : MonoBehaviour
 
     public void DebugFunc()
     {
-        TextMaker.instance.CreateCameraText(Vector3.zero, "Not Enough Gold!", 60);
+        TextMaker.instance.CreateCameraText("Not Enough Gold!");
     }
 }

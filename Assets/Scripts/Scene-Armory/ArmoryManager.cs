@@ -28,43 +28,93 @@ public class ArmoryManager : MonoBehaviour
     public Text unitDesc;
     public Text unitUpgradeGold;
 
+    public Text unitUpgradeButtonText;
+    public Text unitEquiptButtonText;
+
     [Header("디버그용: 현재 선택된 버튼")]
     [SerializeField]    
     ButtonContoller selectedButton;
+    // 버튼의 다른 속성들
+    Unit unit;
+    Upgradable upgradable;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    ResourceControl soulRes => PlayerResourceManager.Instance.SoulResource;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    // selectedButton 변경
     public void SetSelectedUnit(ButtonContoller button)
     {
         if (selectedButton) selectedButton.OnDeselected();        
         selectedButton = button;
         selectedButton.OnSelected();
 
-        // 버튼 오브젝트에 해당하는 유닛 정보 UI에 표시        
-        Unit unit = selectedButton.UnitPrefab.GetComponent<Unit>();
-        unitName.text = unit.name;
-        unitDesc.text = unit.desc;
-        Upgradable upgradable = selectedButton.UnitPrefab.GetComponent<Upgradable>();
-        unitUpgradeGold.text = upgradable.costToNextLevelStr.ToString();
+        unit = selectedButton.UnitPrefab.GetComponent<Unit>();
+        upgradable = selectedButton.UnitPrefab.GetComponent<Upgradable>();
+
+        SetInfoUi();
     }
 
+    // 현재 selectedButton -> 정보 UI 반영
+    void SetInfoUi()
+    {                
+        // 버튼 오브젝트에 해당하는 유닛 정보 UI에 표시
+        unitName.text = unit.name;
+        unitDesc.text = unit.desc;     
+        
+        string str;
+        // 강화에 필요한 자원
+        if (upgradable.CurrentLevel >= Upgradable.MAX_LEVEL) str = "max";
+        else str = upgradable.CostToNextLevel.ToString() + " soul";
+        unitUpgradeGold.text = str;
+        // 사용 잠금해제 / 업그레이드 버튼의 텍스트
+        if (upgradable.CurrentLevel < 1) str = "unlock";
+        else str = "upgrade";
+        unitUpgradeButtonText.text = str;
+        // 장비 / 장비해제 버튼의 텍스트
+        if (selectedButton.IsEquipted) str = "unequipt";
+        else str = "equipt";
+        unitEquiptButtonText.text = str;
+    }
+
+    #region 버튼 이벤트
+
     public void OnEquiptButtonClick()
-    { 
-    
+    {
+        // 유닛 잠금 해제 검사
+        if (!selectedButton.IsUnlocked)
+        {
+            TextMaker.instance.CreateCameraText("need unlock!");
+            return;
+        }
+
+        selectedButton.ToggleEquipted();
+
+        SetInfoUi();
     }
 
     public void OnUpgradeButtonClick()
     {
+        // 레벨 한계치 검사
+        if (upgradable.CurrentLevel >= Upgradable.MAX_LEVEL)
+        {
+            TextMaker.instance.CreateCameraText("level max!");
+            return;
+        }
 
+        int cost = upgradable.CostToNextLevel;
+        // 자원 검사
+        if (cost > soulRes.CurrentResource)
+        {
+            TextMaker.instance.CreateCameraText("Not Enough Soul!");
+            return;
+        }
+
+        // 강화 처리
+        soulRes.TrySpendResource(cost);
+        upgradable.LevelUp();
+        selectedButton.InitButton(selectedButton.UnitPrefab);
+        SetInfoUi();
     }
+
+    #endregion
+
 }
