@@ -31,10 +31,15 @@ public class ArmoryManager : MonoBehaviour
     public Text unitUpgradeButtonText;
     public Text unitEquiptButtonText;
 
+    [Header("스폰 유닛 정보 관리")]
+    [SerializeField]
+    UnitPallet UnitSpwanPallet;
+
     [Header("디버그용: 현재 선택된 버튼")]
     [SerializeField]    
     ButtonContoller selectedButton;
     // 버튼의 다른 속성들
+    GameObject unitPrefab;
     Unit unit;
     Upgradable upgradable;
 
@@ -47,8 +52,9 @@ public class ArmoryManager : MonoBehaviour
         selectedButton = button;
         selectedButton.OnSelected();
 
-        unit = selectedButton.UnitPrefab.GetComponent<Unit>();
-        upgradable = selectedButton.UnitPrefab.GetComponent<Upgradable>();
+        unitPrefab = selectedButton.UnitPrefab;
+        unit = unitPrefab.GetComponent<Unit>();
+        upgradable = unitPrefab.GetComponent<Upgradable>();
 
         SetInfoUi();
     }
@@ -85,6 +91,19 @@ public class ArmoryManager : MonoBehaviour
             TextMaker.instance.CreateCameraText("need unlock!");
             return;
         }
+
+        // 유닛 사용 등록 / 사용 해제
+        if (selectedButton.IsEquipted)
+        {
+            // 유닛 사용 등록 해제
+            UnitSpwanPallet.DeleteOnList(unitPrefab);
+        }
+        else
+        {
+            // 유닛 사용 등록 시도
+            bool succes = UnitSpwanPallet.AddToList(unitPrefab);
+            if (!succes) return;
+        }        
 
         selectedButton.ToggleEquipted();
 

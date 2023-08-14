@@ -85,14 +85,14 @@ public class ButtonContoller : MonoBehaviour
 
         // 유닛 레벨 표기
         levelText.text = "lv." + upgradable.CurrentLevel;
-        //levelText.enabled = IsUnlocked;
+        levelText.enabled = IsUnlocked;
         
         // 유닛 생산 비용 표기        
         costText.text = spwanable.price.ToString();
         costText.enabled = IsUnlocked;
 
         // 사용 중 텍스트 활성화 여부
-        equiptText.enabled = isEquipted;
+        equiptText.enabled = IsEquipted;
         
         // 잠금 이미지 활성화 여부
         lockImage.enabled = !IsUnlocked;                                
@@ -100,6 +100,8 @@ public class ButtonContoller : MonoBehaviour
         switch (buttonType)
         {
             case ButtonType.Spwan:
+                equiptText.enabled = false;
+                levelText.enabled = false;
                 // onClick에 리스너 등록
                 button.onClick.AddListener(TrySpwanUnit);                
                 // 시작 시 스폰 쿨타임 적용
@@ -110,16 +112,13 @@ public class ButtonContoller : MonoBehaviour
                 button.onClick.AddListener(delegate {
                     // 현재 관리 중인 오브젝트로 지정                    
                     ArmoryManager.Instance.SetSelectedUnit(this);   
-                });                
-                
+                });                                
                 break;
-
 
             default:
                 Debug.Log("유효하지 않은 버튼 타입 : " + buttonType);
                 break;            
-        }
-  
+        }  
     }
 
     // 사용 여부 반전

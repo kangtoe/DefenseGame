@@ -114,7 +114,7 @@ public class UnitPallet : MonoBehaviour
     }
 
     // 스폰 프리팹을 리스트에 추가
-    void AddToList(GameObject spwanPrefab)
+    public bool AddToList(GameObject spwanPrefab)
     {
         for (int i = 0; i < unitPrefabs.Count; i++)
         {
@@ -123,20 +123,37 @@ public class UnitPallet : MonoBehaviour
             {
                 unitPrefabs[i] = spwanPrefab;
                 Init(); // UI 갱신
-                return;
+                return true;
             }
         }
 
-        // 유닛 최대 등록 수 초과
-        if (unitPrefabs.Count > unitCount)
+        // 유닛 최대 등록 수 검사
+        if (unitPrefabs.Count >= unitCount)
         {
             // TODO : 게임 내 text 띄우기
-            Debug.Log("유닛 최대 등록 수 초과");
-            return;
+            TextMaker.instance.CreateCameraText("list full!");
+            return false;
         }
 
         // 유닛 리스트에 추가
         unitPrefabs.Add(spwanPrefab);
-        Init(); // UI 갱신        
+        Init(); // UI 갱신
+        return true;
+    }
+
+    // 기존 등록된 스폰 프리팹 등록 해제
+    public void DeleteOnList(GameObject spwanPrefab)
+    {
+        // 인덱스 찾기
+        int idx = unitPrefabs.FindIndex(x => x == spwanPrefab);
+        if (idx == -1)
+        {
+            Debug.Log("리스트에 없는 spwanPrefab : " + spwanPrefab);
+            return;
+        }
+
+        unitPrefabs[idx] = null;
+        Init(); // UI 갱신
+        return;
     }
 }

@@ -3129,6 +3129,7 @@ MonoBehaviour:
   unitUpgradeGold: {fileID: 1191945488}
   unitUpgradeButtonText: {fileID: 506092344}
   unitEquiptButtonText: {fileID: 1613831202}
+  UnitSpwanPallet: {fileID: 1398874546}
   selectedButton: {fileID: 0}
 --- !u!1001 &1099653173
 PrefabInstance:
