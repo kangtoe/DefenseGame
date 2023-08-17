@@ -8,7 +8,7 @@ public class AutoSpwan : MonoBehaviour
 {
     // 매니저
     public UnitSpwaner spwaner;
-    public ResourceControl goldManager;
+    public ResourceControl resourceControl;
 
     // 스폰 관련
     public bool canSpwan = true;
@@ -64,7 +64,7 @@ public class AutoSpwan : MonoBehaviour
         Spwanable unit = unitPrefab.GetComponentInChildren<Spwanable>();
 
         // 게임 메니저에서 돈이 부족해서 스폰에 실패한 경우
-        if (!goldManager.TrySpendResource(unit.price))
+        if (!resourceControl.TrySpendResource(unit.price))
         {
             //Debug.Log("!!! unit: " + unitPrefab.name + " || gold need: " + unit.price);
             return;
@@ -83,7 +83,7 @@ public class AutoSpwan : MonoBehaviour
         {
             Spwanable unit = spwanUnits[i].GetComponentInChildren<Spwanable>();
             // 현재 골드보다 price가 적은 유닛만 리스트에 등록
-            float currentGold = goldManager.CurrentResource;
+            float currentGold = resourceControl.CurrentResource;
             
             if (unit.price < currentGold)
             {

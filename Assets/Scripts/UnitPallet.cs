@@ -35,13 +35,29 @@ public class UnitPallet : MonoBehaviour
 
     void Start()
     {
+        LoadUsingUnit();
         Init();
     }
 
     public void Init()
     {
+        CheckListCount();
         ClearButtons();
-        CreateButtons();
+        CreateButtons();     
+    }
+
+    // 디버그용
+    void CheckListCount()
+    {
+        if (unitPrefabs.Count != unitCount)
+        {
+            Debug.Log("유닛 리스트 개수 : " + unitPrefabs.Count);
+        }
+
+        if (skillPrefabs.Count != skillCount)
+        {
+            Debug.Log("스킬 리스트 개수 : " + skillPrefabs.Count);
+        }
     }
 
     void ClearButtons()
@@ -87,7 +103,7 @@ public class UnitPallet : MonoBehaviour
     // 스폰 프리팹 -> 버튼 만들기
     ButtonContoller CreateButton(GameObject SpwanPrefab)
     {
-        Debug.Log("add btn : object = " + SpwanPrefab.name);
+        //Debug.Log("add btn : object = " + SpwanPrefab.name);
 
         Spwanable spwanable = SpwanPrefab.GetComponent<Spwanable>();        
         GameObject btnPrefab = spwanable.buttonPrefab;
@@ -116,12 +132,15 @@ public class UnitPallet : MonoBehaviour
     // 스폰 프리팹을 리스트에 추가
     public bool AddToList(GameObject spwanPrefab)
     {
+        Debug.Log("AddToList");
+
         for (int i = 0; i < unitPrefabs.Count; i++)
         {
             // 리스트 요소 중 비어있는 것이 있는 경우, 채워넣기
             if (unitPrefabs[i] == null)
             {
                 unitPrefabs[i] = spwanPrefab;
+                SaveUsingUnit(); // 세이브데이터 갱신
                 Init(); // UI 갱신
                 return true;
             }
@@ -137,6 +156,8 @@ public class UnitPallet : MonoBehaviour
 
         // 유닛 리스트에 추가
         unitPrefabs.Add(spwanPrefab);
+
+        SaveUsingUnit(); // 세이브데이터 갱신
         Init(); // UI 갱신
         return true;
     }
@@ -153,7 +174,34 @@ public class UnitPallet : MonoBehaviour
         }
 
         unitPrefabs[idx] = null;
+        
+        SaveUsingUnit(); // 세이브데이터 갱신
         Init(); // UI 갱신
+
         return;
+    }
+
+    // unitPrefabs -> 세이브 파일 저장
+    void SaveUsingUnit()
+    {
+        if (palletButtonType != ButtonType.Spwan)
+        {
+            //Debug.Log("스폰 팔레트의 유닛만 저장/불러오기 가능해야함!");
+            return;
+        }
+
+        SaveManager.SaveUsingUnits(unitPrefabs);          
+    }
+
+    // 세이브 파일 -> unitPrefabs 불러오기
+    void LoadUsingUnit()
+    {
+        if (palletButtonType != ButtonType.Spwan)
+        {
+            //Debug.Log("스폰 팔레트의 유닛만 저장/불러오기 가능해야함!");
+            return;
+        }
+
+        unitPrefabs = SaveManager.GetUsingUnits();
     }
 }

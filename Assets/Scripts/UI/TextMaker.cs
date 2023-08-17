@@ -38,7 +38,7 @@ public class TextMaker : MonoBehaviour
     }
 
     // 카메라 좌표 기준 텍스트 생성 (카메라 위치에 종속적)
-    public void CreateCameraText(string _text, int fontSize = 60, Vector3? pos = null)
+    public void CreateCameraText(string _text, int fontSize = 60, float fadeSpeed =1, float moveSpeed = 0.5f, Vector3? pos = null)
     {
         if (pos == null) pos = Vector3.zero;
         Vector3 vec = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.5f)) + pos.Value;
@@ -46,6 +46,10 @@ public class TextMaker : MonoBehaviour
         txt.fontSize = fontSize;
         txt.rectTransform.SetParent(camearaCanvas);
         txt.text = _text;
+
+        FloatingText floating = txt.GetComponent<FloatingText>(); ;
+        floating.fadeSpeed = fadeSpeed;
+        floating.moveSpeed = moveSpeed;
     }
 
     public void DebugFunc()

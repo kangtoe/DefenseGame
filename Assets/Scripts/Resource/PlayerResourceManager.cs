@@ -37,15 +37,36 @@ public class PlayerResourceManager : MonoBehaviour
 
     private void Start()
     {
+        // 리소스 변경 시 UI를 갱신하는 리스너 등록
         manaResource?.onSetResource.AddListener(() => SetResourceText(manaResource.CurrentResource, manaText));
         soulResource?.onSetResource.AddListener(() => SetResourceText(soulResource.CurrentResource, soulText));
+
+        // 기존 자원량 불러오기
+        int resourceAmount = SaveManager.SaveData.currentResource;
+        soulResource.SetResource(resourceAmount);
     }
 
     // ui에 현재 정보 표기
     void SetResourceText(float resourceAmount, Text text)
-    {        
+    {
+        if (text == null) return;
+
         // 다섯 자릿수에서 없는 단위는 0으로 채우기
         string str = ((int)resourceAmount).ToString("00000");
         text.text = str;
+    }
+
+    public void SaveCurrentResource()
+    {
+        int currentAmount = (int)soulResource.CurrentResource;
+        SaveManager.SaveResource(currentAmount);
+    }
+
+    // 디버그용
+    public void SetResource(int amount)
+    {
+        soulResource.SetResource(amount);
+        SetResourceText(soulResource.CurrentResource, soulText);
+        SaveCurrentResource();
     }
 }

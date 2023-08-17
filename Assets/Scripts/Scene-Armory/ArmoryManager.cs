@@ -131,9 +131,13 @@ public class ArmoryManager : MonoBehaviour
         soulRes.TrySpendResource(cost);
         upgradable.LevelUp();
         selectedButton.InitButton(selectedButton.UnitPrefab);
+
+        // 자원소모 저장
+        PlayerResourceManager.Instance.SaveCurrentResource();
+
         SetInfoUi();
     }
 
-    #endregion
+    #endregion    
 
 }

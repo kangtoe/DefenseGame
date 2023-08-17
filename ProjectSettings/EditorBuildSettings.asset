@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TitleScene.unity
+    path: Assets/Scenes/Main.unity
     guid: 606640ed6ac5f6d41ac3aed192dffa9a
   - enabled: 1
-    path: Assets/Scenes/PlayScene.unity
+    path: Assets/Scenes/Battle.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/Armory.unity
     guid: 7888d69c7eb844f4abff7f646128a66d
   - enabled: 1
-    path: Assets/Scenes/BaseUpgrade.unity
+    path: Assets/Scenes/Base.unity
     guid: a65f61bf69d7e954ea43fc92f13a8f31
   m_configObjects: {}

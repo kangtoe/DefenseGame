@@ -35,8 +35,8 @@ public class ButtonContoller : MonoBehaviour
     public Text levelText; // 유닛 강화 단계 표시
 
     public bool IsEquipted => isEquipted;
-    bool isEquipted = false;
-    
+    bool isEquipted;
+
     public bool IsUnlocked => upgradable && upgradable.CurrentLevel > 0;
 
     public GameObject UnitPrefab => unitPrefab;
@@ -74,7 +74,9 @@ public class ButtonContoller : MonoBehaviour
     
     public void InitButton(GameObject spwanUnit)
     {
-        Debug.Log("InitButton");
+        //Debug.Log("InitButton");
+
+        isEquipted = SaveManager.SaveData.IsUsing(spwanUnit);
 
         //unit = unitPrefab.GetComponent<Unit>();
         unitPrefab = spwanUnit;
@@ -126,13 +128,13 @@ public class ButtonContoller : MonoBehaviour
     {
         isEquipted =! isEquipted;
 
-        equiptText.enabled = isEquipted;
+        equiptText.enabled = IsEquipted;
 
-        if (isEquipted)
+        if (IsEquipted)
         { 
             // 스폰 리스트에 추가
         }
-        if (!isEquipted)
+        if (!IsEquipted)
         { 
             // 스폰 리스트에서 제거
         }

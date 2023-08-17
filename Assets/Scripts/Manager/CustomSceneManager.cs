@@ -17,14 +17,6 @@ public enum Scene
 
 public class CustomSceneManager : MonoBehaviour
 {
-    [Header("Scene 이름 상수")]
-    [SerializeField]
-    string TITLE_SCENE_NAME = "TitleScene";
-    [SerializeField]
-    string PLAY_SCENE_NAME = "PlayScene";
-    [SerializeField]
-    string SHOP_SCENE_NAME = "UnitScene";
-
     public static CustomSceneManager instance
     {
         get
@@ -41,6 +33,18 @@ public class CustomSceneManager : MonoBehaviour
         }
     }
     private static CustomSceneManager m_instance; // 싱글톤이 할당될 static 변수
+
+    [Header("Scene 이름 상수")]
+    [SerializeField]
+    string TITLE_SCENE_NAME = "TitleScene";
+    [SerializeField]
+    string PLAY_SCENE_NAME = "PlayScene";
+    [SerializeField]
+    string SHOP_SCENE_NAME = "UnitScene";
+
+    [Header("시작 시 씬 이름 표기")]
+    [SerializeField]
+    bool showSceneOnStart = true;
 
     [Header("현재 Scene")]
     public Scene currentScene;
@@ -63,21 +67,9 @@ public class CustomSceneManager : MonoBehaviour
         currentScene = SceneStrToEnum(name);
     }
 
-    // title scene, play 버튼에서 호출
-    // play scene, panel의 재시작 버튼에서 호출
-    public void GameStart()
+    public void ToScene(string sceneName)
     {
-        StartCoroutine(SceneChangeCr(PLAY_SCENE_NAME));
-    }
-
-    public void ToTitleScene()
-    {
-        StartCoroutine(SceneChangeCr(TITLE_SCENE_NAME));
-    }
-
-    public void ToUnitShop()
-    {
-        StartCoroutine(SceneChangeCr(SHOP_SCENE_NAME));
+        StartCoroutine(SceneChangeCr(sceneName));
     }
 
     #region Scene Sting <-> Enum 변환
@@ -96,7 +88,7 @@ public class CustomSceneManager : MonoBehaviour
         if (str == SHOP_SCENE_NAME) return Scene.Shop;
         if (str == PLAY_SCENE_NAME) return Scene.Play;        
 
-        Debug.Log("No Available Str: " + str);
+        //Debug.Log("No Available Str: " + str);
         return Scene.Undefined;
     }
 
@@ -104,7 +96,7 @@ public class CustomSceneManager : MonoBehaviour
 
     // scene 에서 나갈때 호출, 인수는 전환 대상 scene
     IEnumerator SceneChangeCr(string seceneName)
-    {
+    {        
         Time.timeScale = 1f; // GamePause가 먼저 호출된 경우 대비
 
         if (isChangeEffecting) yield break;
@@ -125,6 +117,14 @@ public class CustomSceneManager : MonoBehaviour
     // scene에 새롭게 진입했을 떄 호출
     IEnumerator SceneIn()
     {
+        //Debug.Log("SceneIn");
+
+        if (showSceneOnStart)
+        {
+            string sceneName = SceneManager.GetActiveScene().name;
+            TextMaker.instance.CreateCameraText(sceneName, 120, 0.75f, 0.33f);
+        }        
+
         if (isChangeEffecting) yield break;
         isChangeEffecting = true;
         blackOutImage.gameObject.SetActive(true);
@@ -138,6 +138,6 @@ public class CustomSceneManager : MonoBehaviour
         }
 
         isChangeEffecting = false;
-        blackOutImage.gameObject.SetActive(false);
+        blackOutImage.gameObject.SetActive(false);        
     }
 }

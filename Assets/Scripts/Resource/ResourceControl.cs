@@ -55,13 +55,13 @@ public class ResourceControl : MonoBehaviour
         // 소비량 > 보유량 : 불가능
         if (amount > currentResource) return false;
 
-        // 실제 gold 소모 처리
+        // 실제 자원 소모 처리
         SetResource(currentResource - amount);        
 
         return true;
     }
 
-    virtual public void SetResource(float amount)
+    public void SetResource(float amount)
     {
         currentResource = amount;
         onSetResource.Invoke();
