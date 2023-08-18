@@ -15,6 +15,7 @@ public enum AttackType
 public enum UnitType
 {
     undefined = 0,
+    baseGuard = 96,
     hero = 97,
     empty = 98, // 비어 있음을 표기하기 위한 유닛 형식 (실제로 생성되지는 않음)
     teamBase = 99 // 팀 베이스. 파괴시 패배
@@ -43,11 +44,7 @@ public class Unit : MonoBehaviour
     public float moveSpeed;
     public float attackRange; // 공격거리 == 적 탐색거리
     public float damage;
-    public int impact; // 공격의 충격량    
-
-    [Header("유닛 설명")]
-    [TextArea(3,6)]
-    public string desc;
+    public int impact; // 공격의 충격량       
 
     [Header("타격 & 식별 정보")]
     public bool isEnemy = false; // 적(오른쪽에서 등장, 왼쪽으로 진행)인가?
@@ -90,9 +87,12 @@ public class Unit : MonoBehaviour
         // 바라보는 방향(오른쪽 => 1, 왼쪽 => -1)
         if (!isEnemy) dir = 1; else dir = -1;
 
-        currentHp = maxHp;
-        SyncSlider();
-        hpBar.gameObject.SetActive(false); // 피격 전까지는 hp바 숨기기
+        if (unitType != UnitType.baseGuard)
+        {
+            currentHp = maxHp;
+            SyncSlider();
+            hpBar.gameObject.SetActive(false); // 피격 전까지는 hp바 숨기기
+        }        
 
         // 적일 경우 뒤집기
         if (isEnemy) Flip();
@@ -147,7 +147,7 @@ public class Unit : MonoBehaviour
             if (hasTarget) PlayAttackAnimation();
         }        
 
-        MoveCheck();
+        Move();
     }
 
     void OnDrawGizmos()
@@ -181,54 +181,61 @@ public class Unit : MonoBehaviour
 
     #region 이동 관련
 
-    void MoveCheck()
+    void Move()
     {
-        if (unitType == UnitType.hero)
+        switch (unitType)
         {
-            // 입력 방향
-            int xInput = InputManager.instance.MoveX;
-            // 현재 바라보는 방향
-            int _dir = (transform.right.x > 0 ? 1 : -1);
-            
-            if (Input.GetAxisRaw("Horizontal") == 0)
-            {
-                //Debug.Log("Input false");
-                // 이동 입력 없는 경우, 오른쪽을 바라보도록                      
-                if (_dir != 1)
+            case UnitType.baseGuard:
+                anim.SetFloat("move", 0);
+                break;
+
+            case UnitType.hero:
+
+                // 입력 방향
+                int xInput = InputManager.instance.MoveX;
+                // 현재 바라보는 방향
+                int _dir = (transform.right.x > 0 ? 1 : -1);
+
+                if (Input.GetAxisRaw("Horizontal") == 0)
                 {
-                    Flip();
+                    //Debug.Log("Input false");
+                    // 이동 입력 없는 경우, 오른쪽을 바라보도록                      
+                    if (_dir != 1)
+                    {
+                        Flip();
+                    }
                 }
-            }
-            else
-            {
-                //Debug.Log("Input true");
-                // 이동 입력 있는 경우, 입력 방향을 바라보도록
-                if (_dir != xInput)
+                else
                 {
-                    Flip();
+                    //Debug.Log("Input true");
+                    // 이동 입력 있는 경우, 입력 방향을 바라보도록
+                    if (_dir != xInput)
+                    {
+                        Flip();
+                    }
+
+                    if (isAttacking)
+                    {
+                        Debug.Log("stop attack");
+                        EndAttackAnimation();
+                    }
                 }
 
-                if (isAttacking)
-                {
-                    Debug.Log("stop attack");
-                    EndAttackAnimation();
-                } 
-            }
+                // 입력에 따른 이동
+                float xMove = moveSpeed * Time.deltaTime * Mathf.Abs(xInput);
+                anim.SetFloat("move", Mathf.Abs(xMove));
+                transform.Translate(xMove, 0, 0);
 
-            // 입력에 따른 이동
-            float xMove = moveSpeed * Time.deltaTime * Mathf.Abs(xInput);
-            anim.SetFloat("move", Mathf.Abs(xMove));
-            transform.Translate(xMove, 0, 0);
+                // 이동 제한
+                LimitMove();
 
-            // 이동 제한
-            LimitMove();
-        }
-        else
-        {
-            if (isAttacking) return;
+                break;
 
-            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-        }        
+            default:
+                if (isAttacking) return;
+                transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+                break;
+        }                
     }
     
     void LimitMove()

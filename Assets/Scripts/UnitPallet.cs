@@ -77,25 +77,36 @@ public class UnitPallet : MonoBehaviour
     // 리스트 정보대로 버튼 생성
     void CreateButtons()
     {
+        // prefab 리스트 개수 = 사전 정의한 카운트 개수
+        int addUnit = unitCount - unitPrefabs.Count;
+        for (int i = 0; i < addUnit; i++)
+        {
+            unitPrefabs.Add(null);
+        }
+        int addSkill = skillCount - skillPrefabs.Count;
+        for (int i = 0; i < addSkill; i++)
+        {
+            skillPrefabs.Add(null);
+        }
+
+        // 버튼 생성
         foreach (GameObject unit in unitPrefabs)
         {
             if (unit == null)
-            {
+            {                
                 Instantiate(emptyUnitButton, unitButtonParent);
                 continue;
             }
-
             CreateButton(unit);
         }
-
         foreach (GameObject skill in skillPrefabs)
         {
             if (skill == null)
             {
+                Debug.Log("skill iis null");
                 Instantiate(emptySkillButton, skillButtonParent);
                 continue;
             }
-
             CreateButton(skill);
         }
     }
@@ -116,7 +127,7 @@ public class UnitPallet : MonoBehaviour
                 btnClone = Instantiate(btnPrefab, unitButtonParent);
                 break;
             case spwanType.skill:
-                btnClone = Instantiate(btnPrefab, unitButtonParent);
+                btnClone = Instantiate(btnPrefab, skillButtonParent);
                 break;
             default:
                 Debug.Log("유효하지 않은 spwanType : " + spwanable.type);
@@ -134,20 +145,40 @@ public class UnitPallet : MonoBehaviour
     {
         Debug.Log("AddToList");
 
+        int count;
+        List<GameObject> list;
+        // 스폰 프리팹의 타입 (유닛/스킬) 알아내기
+        spwanType type = spwanPrefab.GetComponent<Spwanable>().type;
+        // 타입에 따라 추가할 리스트와 max 카운트 정하기
+        switch (type)
+        {
+            case spwanType.unit:
+                count = unitCount;
+                list = unitPrefabs;
+                break;
+            case spwanType.skill:
+                count = skillCount;
+                list = skillPrefabs;
+                break;
+            default:
+                Debug.Log("spwanType error : " + type);
+                return false;
+        }
+
         for (int i = 0; i < unitPrefabs.Count; i++)
         {
             // 리스트 요소 중 비어있는 것이 있는 경우, 채워넣기
-            if (unitPrefabs[i] == null)
+            if (list[i] == null)
             {
-                unitPrefabs[i] = spwanPrefab;
-                SaveUsingUnit(); // 세이브데이터 갱신
+                list[i] = spwanPrefab;
+                SavePallet(); // 세이브데이터 갱신
                 Init(); // UI 갱신
                 return true;
             }
         }
 
         // 유닛 최대 등록 수 검사
-        if (unitPrefabs.Count >= unitCount)
+        if (list.Count >= count)
         {
             // TODO : 게임 내 text 띄우기
             TextMaker.instance.CreateCameraText("list full!");
@@ -155,9 +186,9 @@ public class UnitPallet : MonoBehaviour
         }
 
         // 유닛 리스트에 추가
-        unitPrefabs.Add(spwanPrefab);
+        list.Add(spwanPrefab);
 
-        SaveUsingUnit(); // 세이브데이터 갱신
+        SavePallet(); // 세이브데이터 갱신
         Init(); // UI 갱신
         return true;
     }
@@ -175,14 +206,14 @@ public class UnitPallet : MonoBehaviour
 
         unitPrefabs[idx] = null;
         
-        SaveUsingUnit(); // 세이브데이터 갱신
+        SavePallet(); // 세이브데이터 갱신
         Init(); // UI 갱신
 
         return;
     }
 
     // unitPrefabs -> 세이브 파일 저장
-    void SaveUsingUnit()
+    void SavePallet()
     {
         if (palletButtonType != ButtonType.Spwan)
         {
@@ -190,7 +221,8 @@ public class UnitPallet : MonoBehaviour
             return;
         }
 
-        SaveManager.SaveUsingUnits(unitPrefabs);          
+        SaveManager.SaveUsingUnits(unitPrefabs);
+        SaveManager.SaveUsingSkills(skillPrefabs);
     }
 
     // 세이브 파일 -> unitPrefabs 불러오기
@@ -203,5 +235,6 @@ public class UnitPallet : MonoBehaviour
         }
 
         unitPrefabs = SaveManager.GetUsingUnits();
+        skillPrefabs = SaveManager.GetUsingSkills();
     }
 }

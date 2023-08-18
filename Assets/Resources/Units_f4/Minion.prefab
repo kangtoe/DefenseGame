@@ -59,7 +59,6 @@ MonoBehaviour:
   attackRange: 2
   damage: 40
   impact: 0
-  desc: 
   isEnemy: 0
   damageTextPonit: {fileID: 0}
   deathEffectPrefab: {fileID: 9079989737093836079, guid: e8f7d88871a336c489386d0c751a50a9,
@@ -95,6 +94,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultCost: 50
   currentLevel: 0
+  desc: 
 --- !u!50 &2059017831299133571
 Rigidbody2D:
   serializedVersion: 4

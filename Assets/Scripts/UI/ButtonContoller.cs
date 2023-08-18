@@ -39,9 +39,9 @@ public class ButtonContoller : MonoBehaviour
 
     public bool IsUnlocked => upgradable && upgradable.CurrentLevel > 0;
 
-    public GameObject UnitPrefab => unitPrefab;
+    public GameObject SpwanPrefab => spwanPrefab;
     // 스폰할 유닛 관련 변수
-    GameObject unitPrefab; // 버튼에 스폰을 등록된 유닛 프리팹 (unit pallet에서 초기화)    
+    GameObject spwanPrefab; // 버튼에 스폰을 등록된 유닛 프리팹 (unit pallet에서 초기화)    
     Spwanable spwanable;
     Upgradable upgradable;
     //Unit unit;
@@ -79,9 +79,9 @@ public class ButtonContoller : MonoBehaviour
         isEquipted = SaveManager.SaveData.IsUsing(spwanUnit);
 
         //unit = unitPrefab.GetComponent<Unit>();
-        unitPrefab = spwanUnit;
-        spwanable = unitPrefab.GetComponent<Spwanable>();
-        upgradable = unitPrefab.GetComponent<Upgradable>();
+        spwanPrefab = spwanUnit;
+        spwanable = spwanPrefab.GetComponent<Spwanable>();
+        upgradable = spwanPrefab.GetComponent<Upgradable>();
         spwanManager = PlayerSpwaner.Instance;
         manaManager = PlayerResourceManager.Instance.ManaResource;
 
@@ -158,7 +158,7 @@ public class ButtonContoller : MonoBehaviour
         }
 
         // 스폰 성공 처리
-        spwanManager.SpwanUnit(unitPrefab);
+        spwanManager.SpwanUnit(spwanPrefab);
         lastSpwanTime = Time.time;
         isSpwanCooltime = true;
         StartCoroutine(SyncFilledImage());

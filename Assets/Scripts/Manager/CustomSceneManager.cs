@@ -60,7 +60,7 @@ public class CustomSceneManager : MonoBehaviour
     {
         // 타이틀 scene에서는 진입효과 넣지 않음
         //if (SceneManager.GetActiveScene().name != "TitleScene")
-        StartCoroutine(SceneIn());
+        StartCoroutine(SceneIn(0.25f));
 
         // 현재 씬 알아오기
         string name = SceneManager.GetActiveScene().name;
@@ -115,21 +115,25 @@ public class CustomSceneManager : MonoBehaviour
         SceneManager.LoadScene(seceneName);
     }
     // scene에 새롭게 진입했을 떄 호출
-    IEnumerator SceneIn()
+    IEnumerator SceneIn(float startDelay = 0)
     {
         //Debug.Log("SceneIn");
 
+        if (isChangeEffecting) yield break;
+        isChangeEffecting = true;
+        blackOutImage.gameObject.SetActive(true);        
+
+        // 시작 시 Scene 이름 표기
         if (showSceneOnStart)
         {
             string sceneName = SceneManager.GetActiveScene().name;
             TextMaker.instance.CreateCameraText(sceneName, 120, 0.75f, 0.33f);
-        }        
-
-        if (isChangeEffecting) yield break;
-        isChangeEffecting = true;
-        blackOutImage.gameObject.SetActive(true);
+        }
 
         float fill = 1;
+        blackOutImage.fillAmount = fill;
+        yield return new WaitForSeconds(startDelay);
+
         while (fill > 0)
         {
             fill -= Time.deltaTime;

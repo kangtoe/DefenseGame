@@ -39,9 +39,9 @@ public class ArmoryManager : MonoBehaviour
     [SerializeField]    
     ButtonContoller selectedButton;
     // 버튼의 다른 속성들
-    GameObject unitPrefab;
-    Unit unit;
+    GameObject unitPrefab;    
     Upgradable upgradable;
+    //Unit unit;
 
     ResourceControl soulRes => PlayerResourceManager.Instance.SoulResource;
 
@@ -52,9 +52,9 @@ public class ArmoryManager : MonoBehaviour
         selectedButton = button;
         selectedButton.OnSelected();
 
-        unitPrefab = selectedButton.UnitPrefab;
-        unit = unitPrefab.GetComponent<Unit>();
+        unitPrefab = selectedButton.SpwanPrefab;        
         upgradable = unitPrefab.GetComponent<Upgradable>();
+        //unit = unitPrefab.GetComponent<Unit>();
 
         SetInfoUi();
     }
@@ -63,8 +63,8 @@ public class ArmoryManager : MonoBehaviour
     void SetInfoUi()
     {                
         // 버튼 오브젝트에 해당하는 유닛 정보 UI에 표시
-        unitName.text = unit.name;
-        unitDesc.text = unit.desc;     
+        unitName.text = unitPrefab.name;
+        unitDesc.text = upgradable.desc;     
         
         string str;
         // 강화에 필요한 자원
@@ -130,7 +130,7 @@ public class ArmoryManager : MonoBehaviour
         // 강화 처리
         soulRes.TrySpendResource(cost);
         upgradable.LevelUp();
-        selectedButton.InitButton(selectedButton.UnitPrefab);
+        selectedButton.InitButton(selectedButton.SpwanPrefab);
 
         // 자원소모 저장
         PlayerResourceManager.Instance.SaveCurrentResource();

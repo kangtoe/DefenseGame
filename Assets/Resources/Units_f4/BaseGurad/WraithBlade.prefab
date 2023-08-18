@@ -51,7 +51,7 @@ MonoBehaviour:
   firePoint: {fileID: 0}
   bulletPrefab: {fileID: 9120564941617895315, guid: 0050333dd248e34498eed20b08806eea,
     type: 3}
-  unitType: 0
+  unitType: 96
   attackType: 0
   maxHp: 500
   hpRegen: 0

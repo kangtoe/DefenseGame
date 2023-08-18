@@ -52,6 +52,9 @@ public static class SaveManager
     // Resources 폴더 아래 유닛 폴더 상대 경로
     static string UNIT_PATH = "Units_f4/";
 
+    // Resources 폴더 아래 유닛 폴더 상대 경로
+    static string SKILL_PATH = "Skills/";
+
     #region 저장
 
     public static void Save(SaveData _data)
@@ -84,6 +87,18 @@ public static class SaveManager
         List<string> names = GameObjectListToStringList(usingUnits);
         saveData.usingUnitNames = names;
         
+        Save(saveData);
+    }
+
+    // usingSkillNames 필드만 수정
+    public static void SaveUsingSkills(List<GameObject> usingSkills)
+    {
+        Debug.Log("SaveUsingUnits");
+
+        // 기존 데이터 수정
+        List<string> names = GameObjectListToStringList(usingSkills);
+        saveData.usingSkillNames = names;
+
         Save(saveData);
     }
 
@@ -136,7 +151,7 @@ public static class SaveManager
     }
 
     // String List -> GameObject List
-    static public List<GameObject> StringListToGameObjectList(List<string> strs)
+    static public List<GameObject> StringListToGameObjectList(List<string> strs, string path)
     {
         // 구하여 반환할 리스트
         List<GameObject> objects = new List<GameObject>();
@@ -152,14 +167,14 @@ public static class SaveManager
             }
 
             // 이름으로 게임 오브젝트 찾기 시도
-            GameObject go = Resources.Load<GameObject>(UNIT_PATH + str);
+            GameObject go = Resources.Load<GameObject>(path + str);
 
             // 이름에 해당하는 오브젝트가 없는 경우
             if (go == null)
             {
                 string log = null;
                 log += "Resources.Load fail!" + " || ";
-                log += "UNIT_PATH : " + UNIT_PATH + " || ";
+                log += "path : " + path + " || ";
                 log += "name : " + str;
                 Debug.Log(log);
                 return null;
@@ -174,11 +189,15 @@ public static class SaveManager
 
     public static List<GameObject> GetUsingUnits()
     {
-        return StringListToGameObjectList(SaveData.usingUnitNames);
+        List<string> list = SaveData.usingUnitNames;
+        if (list is null) list = new List<string>();
+        return StringListToGameObjectList(list, UNIT_PATH);
     }
 
     public static List<GameObject> GetUsingSkills()
     {
-        return StringListToGameObjectList(SaveData.usingSkillNames);
+        List<string> list = SaveData.usingSkillNames;
+        if (list is null) list = new List<string>();
+        return StringListToGameObjectList(list, SKILL_PATH);
     }
 }

@@ -14,6 +14,10 @@ public class Upgradable : MonoBehaviour
     [SerializeField]
     int currentLevel = 0;
 
+    [Header("업그레이드 오브젝트 설명")]
+    [TextArea(3, 6)]
+    public string desc;
+
     // 다음 레벨업에 필요한 자원량   
     public int CostToNextLevel
     {
