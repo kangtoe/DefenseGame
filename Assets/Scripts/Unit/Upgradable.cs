@@ -44,7 +44,7 @@ public class Upgradable : MonoBehaviour
     public void SetLevelFromSave()
     {
         currentLevel = SaveManager.GetUpgradeLevel(name);
-        Debug.Log("SetLevelFromSave => " + gameObject.name + " Level : " + currentLevel);
+        //Debug.Log("SetLevelFromSave => " + gameObject.name + " Level : " + currentLevel);
         ValueCheck();
     }
     

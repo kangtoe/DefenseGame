@@ -48,9 +48,7 @@ public class UnitPallet : MonoBehaviour
 
         if (palletButtonType == ButtonType.Upgrade)
         {
-            Debug.Log("unitButtonParent :" + unitButtonParent);
-            Debug.Log("unitButtonParent.GetChild(0) :" + unitButtonParent.GetChild(0).gameObject.name);
-
+            // 첫번째 버튼 클릭된 상태로 시작하기
             Button button = unitButtonParent.GetChild(0).GetComponentInChildren<Button>();
             Debug.Log("button : " + button.name);
             button.onClick.Invoke();
@@ -75,14 +73,25 @@ public class UnitPallet : MonoBehaviour
     {
         //Debug.Log("ClearButton");
 
+        // 제거할 Transform 리스트
+        List<Transform> tfList = new List<Transform>();
+        // 유닛 버튼 Transform
         foreach (Transform tf in unitButtonParent)
         {
-            Destroy(tf.gameObject);
+            tfList.Add(tf);
         }
+        // 스킬 버튼 Transform
         foreach (Transform tf in skillButtonParent)
         {
-            Destroy(tf.gameObject);
+            tfList.Add(tf);            
         }
+        // 리스트 내 모든 Transform 제거
+        foreach (Transform tf in tfList)
+        {
+            // Destroy는 다음 프레임에 실행되므로, 그 전까지는 부모 오브젝트 null 할당
+            tf.parent = null;
+            Destroy(tf.gameObject);
+        }        
     }
 
     // 리스트 정보대로 버튼 생성

@@ -4,8 +4,6 @@ using System.IO;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
-
-
 [Serializable]
 public class SaveData
 {
@@ -267,12 +265,12 @@ public static class SaveManager
             else
             {
                 // 기존 key가 없는 경우
-                Debug.Log(name +" : not found");
+                //Debug.Log(name +" : not found");
                 level = 0;
             }
         }                
 
-        Debug.Log("GetUpgradeLevel || " + name + " level :" + level);
+        //Debug.Log("GetUpgradeLevel || " + name + " level :" + level);
         return level;
     }
 }
