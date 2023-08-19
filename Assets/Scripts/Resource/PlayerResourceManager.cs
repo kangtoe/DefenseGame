@@ -42,7 +42,7 @@ public class PlayerResourceManager : MonoBehaviour
         soulResource?.onSetResource.AddListener(() => SetResourceText(soulResource.CurrentResource, soulText));
 
         // 기존 자원량 불러오기
-        int resourceAmount = SaveManager.SaveData.currentResource;
+        int resourceAmount = SaveManager.CurrentData.currentResource;
         soulResource.SetResource(resourceAmount);
     }
 

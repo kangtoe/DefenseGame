@@ -42,7 +42,7 @@ public class ButtonContoller : MonoBehaviour
     public GameObject SpwanPrefab => spwanPrefab;
     // 스폰할 유닛 관련 변수
     GameObject spwanPrefab; // 버튼에 스폰을 등록된 유닛 프리팹 (unit pallet에서 초기화)    
-    Spwanable spwanable;
+    Spwanable spwanable;    
     Upgradable upgradable;
     //Unit unit;
 
@@ -76,7 +76,7 @@ public class ButtonContoller : MonoBehaviour
     {
         //Debug.Log("InitButton");
 
-        isEquipted = SaveManager.SaveData.IsUsing(spwanUnit);
+        isEquipted = SaveManager.CurrentData.IsUsing(spwanUnit);
 
         //unit = unitPrefab.GetComponent<Unit>();
         spwanPrefab = spwanUnit;
@@ -86,6 +86,7 @@ public class ButtonContoller : MonoBehaviour
         manaManager = PlayerResourceManager.Instance.ManaResource;
 
         // 유닛 레벨 표기
+        upgradable.SetLevelFromSave();
         levelText.text = "lv." + upgradable.CurrentLevel;
         levelText.enabled = IsUnlocked;
         
@@ -111,6 +112,7 @@ public class ButtonContoller : MonoBehaviour
                 break;
 
             case ButtonType.Upgrade:
+                //Debug.Log(gameObject.name + "AddListener");
                 button.onClick.AddListener(delegate {
                     // 현재 관리 중인 오브젝트로 지정                    
                     ArmoryManager.Instance.SetSelectedUnit(this);   

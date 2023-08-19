@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary;
 
 
+
 [Serializable]
 public class SaveData
 {
@@ -17,11 +18,14 @@ public class SaveData
     // 사용 중인 스킬 이름 리스트
     public List<string> usingSkillNames;
 
+    public StringIntDictionary upgradeInfos;
+
     public SaveData()
     {
         currentResource = 0;
-        usingUnitNames = null;
-        usingSkillNames = null;
+        usingUnitNames = new List<string>();
+        usingSkillNames = new List<string>();
+        upgradeInfos = new StringIntDictionary();
     }
 
     public bool IsUsing(GameObject go)
@@ -31,19 +35,27 @@ public class SaveData
 
         return false;
     }
+
+    public bool IsUnlocked(GameObject go)
+    {
+        string _name = go.name;
+        if (upgradeInfos.ContainsKey(_name) && upgradeInfos[_name] >= 1) return true;            
+
+        return false;
+    }
 }
 
 public static class SaveManager
 {
-    public static SaveData SaveData
+    public static SaveData CurrentData
     {
         get
         {
-            if (saveData == null) saveData = Load();
-            return saveData;
+            if (currentData == null) currentData = Load();
+            return currentData;
         }
     }
-    static SaveData saveData;
+    static SaveData currentData;
 
     // 세이브 데이터 경로와 이름
     static string SAVE_FILE_NAME => "save.dat";
@@ -64,18 +76,20 @@ public static class SaveManager
         formatter.Serialize(stream, _data);
         stream.Close();
 
-        saveData = _data;
+        currentData = _data;
 
-        Debug.Log("saved on : " + SAVE_PATH);
+        //Debug.Log("saved on : " + SAVE_PATH);
     }
 
     // currentResource 필드만 수정
     public static void SaveResource(int amount)
     {
+        Debug.Log("SaveResource : " + amount);
+
         // 기존 데이터 수정
-        saveData.currentResource = amount;
+        currentData.currentResource = amount;
         
-        Save(saveData);
+        Save(currentData);
     }
 
     // usingUnitNames 필드만 수정
@@ -85,9 +99,9 @@ public static class SaveManager
 
         // 기존 데이터 수정
         List<string> names = GameObjectListToStringList(usingUnits);
-        saveData.usingUnitNames = names;
+        currentData.usingUnitNames = names;
         
-        Save(saveData);
+        Save(currentData);
     }
 
     // usingSkillNames 필드만 수정
@@ -97,9 +111,38 @@ public static class SaveManager
 
         // 기존 데이터 수정
         List<string> names = GameObjectListToStringList(usingSkills);
-        saveData.usingSkillNames = names;
+        currentData.usingSkillNames = names;
 
-        Save(saveData);
+        Save(currentData);
+    }
+
+    // upgradeInfos 하나의 요소 업데이트/추가
+    public static void UpdateLevelInfo(string name, int level)
+    {
+        Debug.Log("UpdateLevelInfo || " + name  + " level :" + level);
+
+        // 기존 데이터 수정
+        {
+            Dictionary<string, int> upgradeInfos = CurrentData.upgradeInfos;
+
+            // null인 경우 초기화
+            if (upgradeInfos == null) upgradeInfos = new Dictionary<string, int>();
+
+            //string name = go.name;
+            if (upgradeInfos.ContainsKey(name))
+            {
+                // 기존 key가 있는 경우, 해당 오브젝트의 레벨만 변경
+                upgradeInfos[name] = level;
+            }
+            else
+            {
+                // 기존 key가 없는 경우, 추가하기
+                upgradeInfos.Add(name, level);
+            }
+        }
+        
+        // 수정사항 저장
+        Save(currentData);
     }
 
     #endregion
@@ -108,13 +151,15 @@ public static class SaveManager
 
     public static SaveData Load()
     {
+        Debug.Log("Load");
+
         if (File.Exists(SAVE_PATH))
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(SAVE_PATH, FileMode.Open);
 
             SaveData data = formatter.Deserialize(stream) as SaveData;
-
+            currentData = data;
             stream.Close();
 
             return data;
@@ -189,15 +234,45 @@ public static class SaveManager
 
     public static List<GameObject> GetUsingUnits()
     {
-        List<string> list = SaveData.usingUnitNames;
+        List<string> list = CurrentData.usingUnitNames;
         if (list is null) list = new List<string>();
         return StringListToGameObjectList(list, UNIT_PATH);
     }
 
     public static List<GameObject> GetUsingSkills()
     {
-        List<string> list = SaveData.usingSkillNames;
+        List<string> list = CurrentData.usingSkillNames;
         if (list is null) list = new List<string>();
         return StringListToGameObjectList(list, SKILL_PATH);
+    }
+
+    public static int GetUpgradeLevel(string name)
+    {
+        int level;
+        Dictionary<string, int> upgradeInfos = CurrentData.upgradeInfos;
+
+        if (upgradeInfos == null)
+        {
+            // null인 경우
+            Debug.Log("upgradeInfos == null");
+            level = 0;  
+        } 
+        else
+        {
+            if (upgradeInfos.ContainsKey(name))
+            {
+                // 기존 key가 있는 경우
+                level = upgradeInfos[name];
+            }
+            else
+            {
+                // 기존 key가 없는 경우
+                Debug.Log(name +" : not found");
+                level = 0;
+            }
+        }                
+
+        Debug.Log("GetUpgradeLevel || " + name + " level :" + level);
+        return level;
     }
 }

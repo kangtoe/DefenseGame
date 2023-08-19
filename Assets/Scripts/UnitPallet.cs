@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UnitPallet : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class UnitPallet : MonoBehaviour
 
     void Start()
     {
-        LoadUsingUnit();
+        LoadPallet();
         Init();
     }
 
@@ -43,7 +44,17 @@ public class UnitPallet : MonoBehaviour
     {
         CheckListCount();
         ClearButtons();
-        CreateButtons();     
+        CreateButtons();
+
+        if (palletButtonType == ButtonType.Upgrade)
+        {
+            Debug.Log("unitButtonParent :" + unitButtonParent);
+            Debug.Log("unitButtonParent.GetChild(0) :" + unitButtonParent.GetChild(0).gameObject.name);
+
+            Button button = unitButtonParent.GetChild(0).GetComponentInChildren<Button>();
+            Debug.Log("button : " + button.name);
+            button.onClick.Invoke();
+        }
     }
 
     // 디버그용
@@ -103,7 +114,7 @@ public class UnitPallet : MonoBehaviour
         {
             if (skill == null)
             {
-                Debug.Log("skill iis null");
+                //Debug.Log("skill is null");
                 Instantiate(emptySkillButton, skillButtonParent);
                 continue;
             }
@@ -143,7 +154,7 @@ public class UnitPallet : MonoBehaviour
     // 스폰 프리팹을 리스트에 추가
     public bool AddToList(GameObject spwanPrefab)
     {
-        Debug.Log("AddToList");
+        Debug.Log("AddToList : " + spwanPrefab);
 
         int count;
         List<GameObject> list;
@@ -226,7 +237,7 @@ public class UnitPallet : MonoBehaviour
     }
 
     // 세이브 파일 -> unitPrefabs 불러오기
-    void LoadUsingUnit()
+    void LoadPallet()
     {
         if (palletButtonType != ButtonType.Spwan)
         {

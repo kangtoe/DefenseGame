@@ -26,10 +26,10 @@ public class Upgradable : MonoBehaviour
             else return (int)(defaultCost * (CurrentLevel + 1) * costMultPerLevel); ; 
         }
     }
-    
-    public bool LevelUp()
+
+    // currentLevel 값이 유효한지 검사 및 수정
+    void ValueCheck()
     {        
-        // currentLevel 유효하지 않은 값
         if (currentLevel < 0 || currentLevel > MAX_LEVEL)
         {
             string str = null;
@@ -37,12 +37,26 @@ public class Upgradable : MonoBehaviour
             str += "0 - " + MAX_LEVEL + " 사이 값으로 수정";
             Debug.Log(str);
 
-            currentLevel = Mathf.Clamp(0, MAX_LEVEL, currentLevel);
+            currentLevel = Mathf.Clamp(currentLevel, 0, MAX_LEVEL);         
+        }        
+    }
 
-            return false;
-        }
-
+    public void SetLevelFromSave()
+    {
+        currentLevel = SaveManager.GetUpgradeLevel(name);
+        Debug.Log("SetLevelFromSave => " + gameObject.name + " Level : " + currentLevel);
+        ValueCheck();
+    }
+    
+    public bool LevelUp()
+    {
         currentLevel++;
+        ValueCheck();
+
+        Debug.Log(gameObject + " Level : " + currentLevel);
+
+        // 정보 저장
+        SaveManager.UpdateLevelInfo(gameObject.name, currentLevel);        
         return true;
     }
 }

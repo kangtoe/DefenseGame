@@ -125,15 +125,17 @@ public class ArmoryManager : MonoBehaviour
         {
             TextMaker.instance.CreateCameraText("Not Enough Soul!");
             return;
-        }
+        }        
 
         // 강화 처리
         soulRes.TrySpendResource(cost);
         upgradable.LevelUp();
-        selectedButton.InitButton(selectedButton.SpwanPrefab);
+        selectedButton.InitButton(selectedButton.SpwanPrefab);        
 
         // 자원소모 저장
         PlayerResourceManager.Instance.SaveCurrentResource();
+
+        TextMaker.instance.CreateCameraText("upgraded!");
 
         SetInfoUi();
     }
